@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CasualMITEC | Portal</title>
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root{
+      --mitec-blue:#003366;   /* primary */
+      --mitec-mid:#006699;
+      --mitec-gold:#D4AF37;   /* accent */
+      --bg:#f4f7fb;
+      --card:#ffffff;
+      --muted:#55606a;
+      --radius:12px;
+      --container:980px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      font-family:'Inter',system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      margin:0; background:var(--bg); color:#172033;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    .wrap{max-width:var(--container); margin:32px auto; padding:22px;}
+
+    header.site-header{
+      background: linear-gradient(90deg,var(--mitec-blue),var(--mitec-mid));
+      color:white; padding:26px 18px; border-radius:14px;
+      box-shadow:0 6px 20px rgba(3,30,60,0.12);
+      display:flex; gap:18px; align-items:center; justify-content:space-between;
+    }
+    .brand {display:flex; gap:14px; align-items:center;}
+    .brand .logo{
+      width:56px; height:56px; border-radius:10px;
+      display:flex; align-items:center; justify-content:center;
+      background:linear-gradient(180deg, rgba(255,255,255,0.08), rgba(0,0,0,0.06));
+      font-weight:700; color:white; font-size:18px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+    }
+    header h1{margin:0; font-size:1.15rem; font-weight:600;}
+    header p{margin:0; color:rgba(255,255,255,0.92); opacity:0.95; font-size:0.95rem}
+
+    /* main card */
+    .card{background:var(--card); border-radius:var(--radius); padding:20px; box-shadow:0 6px 18px rgba(15,35,60,0.06); margin-bottom:18px;}
+
+    /* Quick Start */
+    .quick-start .title { display:flex; align-items:center; gap:12px; color:var(--mitec-blue); font-weight:700; margin-bottom:12px; }
+    .steps{display:grid; grid-template-columns:repeat(4,1fr); gap:12px;}
+    .step{
+      background:linear-gradient(180deg,#ffffff,#fbfdff);
+      border-radius:10px; padding:12px 12px; text-align:center; border:1px solid #e9eef6;
+    }
+    .num {
+      width:44px; height:44px; line-height:44px; border-radius:8px; margin:0 auto 8px;
+      background:var(--mitec-mid); color:white; font-weight:700;
+      font-size:1.05rem;
+    }
+    .step p{margin:0; font-weight:600; color:var(--muted); font-size:0.95rem}
+
+    /* Announcements */
+    .ann-title { display:flex; align-items:center; gap:10px; color:var(--mitec-blue); font-weight:700; margin-bottom:12px; }
+    .ann-list{ display:flex; flex-direction:column; gap:10px; }
+    .ann-item{
+      display:flex; gap:12px; align-items:flex-start;
+      border-left:4px solid var(--mitec-gold); background:#fffdf6; padding:12px 14px; border-radius:8px;
+      box-shadow:0 2px 8px rgba(10,20,30,0.03);
+    }
+    .ann-item h4{margin:0; font-size:0.98rem; color:var(--mitec-blue); font-weight:700}
+    .ann-item p{margin:6px 0 0; color:var(--muted); font-size:0.95rem}
+
+    /* Quick Links */
+    .links-grid{ display:flex; flex-wrap:wrap; gap:12px; }
+    .link-btn{
+      display:inline-flex; align-items:center; gap:10px;
+      background:linear-gradient(180deg,var(--mitec-gold), #b68f2a);
+      color: #062028; text-decoration:none; padding:12px 16px; border-radius:10px; font-weight:700;
+      box-shadow:0 6px 18px rgba(33,44,66,0.06); transition:transform .12s ease, box-shadow .12s ease;
+      min-width:160px; justify-content:center;
+    }
+    .link-btn:hover{ transform:translateY(-4px); box-shadow:0 10px 28px rgba(33,44,66,0.10); }
+    .link-btn i{ color: rgba(3,18,36,0.5); font-size:0.95rem }
+
+    footer{ text-align:center; color:var(--muted); margin:18px 0 60px; font-size:0.9rem; }
+
+    @media (max-width:960px){
+      .steps{ grid-template-columns:repeat(2,1fr); }
+    }
+    @media (max-width:560px){
+      header.site-header{flex-direction:column; align-items:flex-start}
+      .steps{ grid-template-columns:1fr; }
+      .link-btn{ width:100%; min-width:0; justify-content:flex-start; padding-left:18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrap">
+    <header class="site-header">
+      <div class="brand">
+        <div class="logo">MITEC</div>
+        <div>
+          <h1>CASUALMITEC — Worker Portal</h1>
+          <p>Simple. Trusted. Ready for work.</p>
+        </div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-weight:600; color:#fff; font-size:0.95rem">Need help?</div>
+        <div style="color:rgba(255,255,255,0.9); font-size:0.92rem">Contact: HR / Operations</div>
+      </div>
+    </header>
+
+    <!-- Quick Start -->
+    <div class="card quick-start" aria-labelledby="qs">
+      <div class="title"><i class="fa-solid fa-flag" style="color:var(--mitec-gold)"></i> Get started — 4 quick steps</div>
+      <div class="steps" role="list">
+        <div class="step" role="listitem">
+          <div class="num">1</div>
+          <p>Register & upload ID</p>
+        </div>
+        <div class="step" role="listitem">
+          <div class="num">2</div>
+          <p>Apply for shifts</p>
+        </div>
+        <div class="step" role="listitem">
+          <div class="num">3</div>
+          <p>Get approval</p>
+        </div>
+        <div class="step" role="listitem">
+          <div class="num">4</div>
+          <p>Sign in / out & get paid</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Announcements (dynamic) -->
+    <div class="card announcements" aria-labelledby="ann">
+      <div class="ann-title"><i class="fa-solid fa-bullhorn" style="color:var(--mitec-mid)"></i>Announcements & updates</div>
+      <div class="ann-list" id="ann-list">
+        <div style="color:var(--muted)">Loading announcements…</div>
+      </div>
+    </div>
+
+    <!-- Quick Links (dynamic) -->
+    <div class="card quick-links" aria-labelledby="ql">
+      <div class="ann-title"><i class="fa-solid fa-link" style="color:var(--mitec-mid)"></i>Quick access</div>
+      <div class="links-grid" id="links-grid">
+        <div style="color:var(--muted)">Loading quick links…</div>
+      </div>
+    </div>
+
+    <footer>© Malaysia International Trade & Exhibition Centre — CasualMITEC</footer>
+  </div>
+
+<script>
+  // >>> Paste your real Sheet IDs here (these are from you)
+  const announcementsSheetID = "1Gks45PK53pcPJXePjYlRLpAhAmGPMPB3X0ec5XaLgRI";
+  const linksSheetID         = "1HG6XoahHcLPkwsSH5MwY3I7f-iBX6OXtZX5F1-dyYkg";
+
+  // Helper: fetch published google sheet JSON
+  async function fetchSheetRows(sheetId, sheetName = 'Sheet1') {
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
+    const r = await fetch(url);
+    const text = await r.text();
+    // strip google's padding and parse
+    const json = JSON.parse(text.substr(47).slice(0, -2));
+    return json.table.rows || [];
+  }
+
+  // Render announcements
+  async function loadAnnouncements() {
+    const box = document.getElementById('ann-list');
+    try {
+      const rows = await fetchSheetRows(announcementsSheetID);
+      box.innerHTML = '';
+      if(!rows.length){ box.innerHTML = '<div style="color:var(--muted)">No announcements at the moment.</div>'; return; }
+      rows.forEach((r) => {
+        const text = r.c && r.c[0] ? r.c[0].v : '';
+        const item = document.createElement('div');
+        item.className = 'ann-item';
+        item.innerHTML = `<div class="ann-item"><h4>${escapeHtml(text)}</h4></div>`;
+        box.appendChild(item);
+      });
+    } catch(e) {
+      console.error('Ann load err', e);
+      box.innerHTML = '<div style="color:#a33">Unable to load announcements.</div>';
+    }
+  }
+
+  // Render quick links
+  async function loadLinks() {
+    const box = document.getElementById('links-grid');
+    try {
+      const rows = await fetchSheetRows(linksSheetID);
+      box.innerHTML = '';
+      if(!rows.length){ box.innerHTML = '<div style="color:var(--muted)">No quick links available.</div>'; return; }
+      rows.forEach((r) => {
+        const label = r.c && r.c[0] ? r.c[0].v : 'Link';
+        const href  = r.c && r.c[1] ? r.c[1].v : '#';
+        const a = document.createElement('a');
+        a.className = 'link-btn';
+        a.href = href;
+        a.rel = 'noopener noreferrer';
+        a.innerHTML = `<i class="fa-solid fa-arrow-right"></i><span>${escapeHtml(label)}</span>`;
+        // for internal relative links, open same tab; for external, open new tab
+        if (/^https?:\/\//i.test(href)) a.target = '_blank';
+        box.appendChild(a);
+      });
+    } catch(e) {
+      console.error('Links load err', e);
+      box.innerHTML = '<div style="color:#a33">Unable to load quick links.</div>';
+    }
+  }
+
+  // small helper to escape simple HTML injection from sheet cells
+  function escapeHtml(str=''){
+    return String(str).replace(/[&<>"']/g, function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]; });
+  }
+
+  // init
+  loadAnnouncements();
+  loadLinks();
+</script>
+
+</body>
+</html>
