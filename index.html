@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quick Start & Announcements — Casual MITEC</title>
+<title>Announcements & Quick Start — Casual MITEC</title>
 
 <!-- FontAwesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -25,16 +25,57 @@
     padding: 20px;
   }
 
-  /* Quick Start Card */
-  .card.quick-start {
+  /* Card styling */
+  .card {
     background: var(--card);
     border-radius: var(--radius);
     padding: 20px;
     box-shadow: 0 6px 24px rgba(0,0,0,0.06);
     max-width: 700px;
-    margin: 30px auto;
+    margin: 20px auto;
   }
 
+  /* Announcements */
+  .ann-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--mitec-mid);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .ann-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .ann-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    border-left: 4px solid var(--mitec-gold);
+    background: #fffdf6;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    box-shadow: 0 2px 8px rgba(10,20,30,0.03);
+  }
+
+  .ann-item h4 {
+    margin: 0;
+    font-size: 0.98rem;
+    color: var(--mitec-mid);
+    font-weight: 700;
+  }
+
+  .ann-item p {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  /* Quick Start Card */
   .card.quick-start .title {
     font-size: 1.3rem;
     font-weight: 700;
@@ -89,55 +130,6 @@
     color: #1c1f24;
   }
 
-  /* Announcements Card */
-  .card.announcements {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 20px;
-    box-shadow: 0 6px 24px rgba(0,0,0,0.06);
-    max-width: 700px;
-    margin: 20px auto;
-  }
-
-  .ann-title {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--mitec-mid);
-    font-weight: 700;
-    margin-bottom: 12px;
-  }
-
-  .ann-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .ann-item {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    border-left: 4px solid var(--mitec-gold);
-    background: #fffdf6;
-    padding: 12px 14px;
-    border-radius: var(--radius);
-    box-shadow: 0 2px 8px rgba(10,20,30,0.03);
-  }
-
-  .ann-item h4 {
-    margin: 0;
-    font-size: 0.98rem;
-    color: var(--mitec-mid);
-    font-weight: 700;
-  }
-
-  .ann-item p {
-    margin: 6px 0 0;
-    color: var(--muted);
-    font-size: 0.95rem;
-  }
-
   footer {
     text-align: center;
     color: var(--muted);
@@ -147,6 +139,14 @@
 </style>
 </head>
 <body>
+
+<!-- Announcements -->
+<div class="card announcements" aria-labelledby="ann">
+  <div class="ann-title"><i class="fa-solid fa-bullhorn" style="color:var(--mitec-mid)"></i> Announcements & Updates</div>
+  <div class="ann-list" id="ann-list">
+    <div style="color:var(--muted)">Loading announcements…</div>
+  </div>
+</div>
 
 <!-- Quick Start -->
 <div class="card quick-start" aria-labelledby="qs">
@@ -175,18 +175,9 @@
   </div>
 </div>
 
-<!-- Announcements -->
-<div class="card announcements" aria-labelledby="ann">
-  <div class="ann-title"><i class="fa-solid fa-bullhorn" style="color:var(--mitec-mid)"></i> Announcements & Updates</div>
-  <div class="ann-list" id="ann-list">
-    <div style="color:var(--muted)">Loading announcements…</div>
-  </div>
-</div>
-
 <footer>© Malaysia International Trade & Exhibition Centre — CasualMITEC</footer>
 
 <script>
-  // Paste your published Google Sheet ID here
   const announcementsSheetID = "1Gks45PK53pcPJXePjYlRLpAhAmGPMPB3X0ec5XaLgRI";
 
   async function fetchSheetRows(sheetId, sheetName = 'Sheet1') {
