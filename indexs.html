@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CasualMITEC — Dashboard</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+  :root{
+    --mitec-blue: #224289;   /* primary */
+    --mitec-mid:  #006699;
+    --mitec-gold: #D4AF37;   /* accent (gold) */
+    --bg: #f4f7fb;
+    --card: #ffffff;
+    --muted: #58616a;
+    --radius: 12px;
+    --container: 1100px;
+    --glass: rgba(255,255,255,0.6);
+  }
+
+  /* Reset / base */
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+    background: linear-gradient(180deg,#f6f9fe,#f0f4fa);
+    color:#122028;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    padding:28px;
+    display:flex;
+    justify-content:center;
+  }
+
+  .wrap{
+    width:100%;
+    max-width:var(--container);
+    margin:0 auto;
+  }
+
+  header.site-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:linear-gradient(90deg,var(--mitec-blue),var(--mitec-mid));
+    color:white;
+    padding:20px 22px;
+    border-radius:14px;
+    box-shadow:0 10px 36px rgba(34,66,137,0.12);
+  }
+  .brand{display:flex;gap:14px;align-items:center}
+  .logo{
+    width:56px;height:56px;border-radius:12px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.08), rgba(0,0,0,0.06));
+    display:flex;align-items:center;justify-content:center;font-weight:800;
+    font-size:18px; color:white; box-shadow:0 3px 8px rgba(0,0,0,0.12)
+  }
+  header h1{margin:0;font-size:1.05rem;font-weight:700}
+  header p{margin:0;opacity:0.95;color:rgba(255,255,255,0.92);font-weight:600}
+
+  .grid{
+    display:grid;
+    grid-template-columns: 1fr 420px;
+    gap:20px;
+    margin-top:20px;
+    align-items:start;
+  }
+
+  /* cards */
+  .card{
+    background:var(--card);
+    border-radius:var(--radius);
+    padding:18px;
+    box-shadow:0 6px 20px rgba(10,30,60,0.06);
+    border:1px solid rgba(10,20,40,0.03);
+  }
+
+  /* ANNOUNCEMENTS - cleaner list */
+  .ann-head{display:flex;gap:12px;align-items:center;margin-bottom:12px;color:var(--mitec-blue);font-weight:800}
+  .ann-list{display:flex;flex-direction:column;gap:10px; max-height:320px; overflow:auto; padding-right:6px}
+  .ann-item{
+    display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:10px;
+    background:linear-gradient(180deg,#ffffff,#fbfdff);
+    border:1px solid #eef3fb;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .ann-item:hover{ transform:translateY(-3px); box-shadow:0 8px 26px rgba(10,30,60,0.06); }
+  .ann-meta{min-width:92px; text-align:left; color:var(--muted); font-weight:600; font-size:0.88rem}
+  .ann-meta .date{font-size:0.82rem;color:#8b97a6}
+  .ann-content h4{margin:0;font-size:0.98rem;color:var(--mitec-blue);font-weight:700}
+  .ann-content p{margin:6px 0 0;color:var(--muted);font-size:0.95rem;line-height:1.35}
+
+  /* QUICKLINKS */
+  .links-grid{display:flex;flex-direction:column; gap:10px; max-height:320px; overflow:auto;padding-right:6px}
+  .link-btn{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:10px 12px; border-radius:10px; text-decoration:none; color:var(--mitec-mid);
+    background:linear-gradient(180deg,#fbfdff,#f6fbff); border:1px solid #e6f0fb;
+    font-weight:700; transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .link-btn:hover{ transform:translateY(-4px); box-shadow:0 12px 30px rgba(34,66,137,0.06) }
+
+  /* QUICK START - animated steps */
+  .quick-start .title{display:flex;align-items:center;gap:10px;color:var(--mitec-blue);font-weight:800;margin-bottom:14px}
+  .steps{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .step{
+    border-radius:12px;padding:14px;background:linear-gradient(180deg,#ffffff,#fbfdff);border:1px solid #e9eef6;
+    display:flex;gap:12px;align-items:center; cursor:pointer; transition: transform .18s cubic-bezier(.2,.9,.2,1), box-shadow .18s;
+    transform: translateY(16px); opacity:0; /* initial for entrance animation */
+  }
+  /* entrance animation handled by JS (stagger) */
+  .step.visible{ transform:none; opacity:1 }
+  .num{ width:46px;height:46px;border-radius:8px;background:var(--mitec-mid);color:white;display:flex;align-items:center;justify-content:center;font-weight:800 }
+  .step p{margin:0;font-weight:700;color:#122028}
+  .step .muted{font-weight:600;color:var(--muted);font-size:0.9rem}
+
+  /* make whole block clickable */
+  .step a, .step button{display:flex; align-items:center; gap:12px; text-decoration:none; color:inherit; width:100%; border:none; background:transparent; padding:0; margin:0}
+
+  /* responsive */
+  @media (max-width:980px){ .grid{ grid-template-columns: 1fr } .steps{ grid-template-columns:1fr } .links-grid, .ann-list{ max-height:220px } }
+
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="site-header">
+      <div class="brand">
+        <div class="logo">MITEC</div>
+        <div>
+          <h1>CasualMITEC Portal</h1>
+          <p>Clocking • Vouchers • Payments</p>
+        </div>
+      </div>
+      <div style="text-align:right;color:rgba(255,255,255,0.95)">
+        <div style="font-weight:700">Need help?</div>
+        <div style="opacity:0.95">Contact HR / Operations</div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <main>
+        <!-- Quick Start -->
+        <div class="card quick-start" aria-labelledby="qs">
+          <div id="qs" class="title"><i class="fa-solid fa-flag" style="color:var(--mitec-gold)"></i> Get Your Payment — 4 quick steps</div>
+          <div class="steps" id="stepsGrid" role="list">
+            <!-- Step 1 -->
+            <div class="step" role="listitem" data-href="https://www.casualmitec.online/first-time-application">
+              <a href="https://www.casualmitec.online/first-time-application" target="_blank" rel="noopener noreferrer">
+                <div class="num">1</div>
+                <div>
+                  <p>Register</p>
+                  <div class="muted">Submit your bank details</div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step" role="listitem" data-href="https://www.casualmitec.online/sign-in-sign-out">
+              <a href="https://www.casualmitec.online/sign-in-sign-out" target="_blank" rel="noopener noreferrer">
+                <div class="num">2</div>
+                <div>
+                  <p>Sign In / Out</p>
+                  <div class="muted">Record every time you come to work</div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Step 3 (lightbox) -->
+            <div class="step" role="listitem">
+              <button class="open-lightbox" data-img="https://eus-cdn.sway.static.microsoft/s/RZPlGrjCXdD5QeF2/images/NCPljCf2-Hl4r0?quality=479&allowAnimation=true&embeddedHost=true&filterEffectsFormula=Grayscale=0,Contrast=1.15" aria-haspopup="dialog" style="width:100%;">
+                <div class="num">3</div>
+                <div>
+                  <p>Voucher</p>
+                  <div class="muted">Submit voucher at guard house</div>
+                </div>
+              </button>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="step" role="listitem" data-href="https://www.casualmitec.online/my-record">
+              <a href="https://www.casualmitec.online/my-record" target="_blank" rel="noopener noreferrer">
+                <div class="num">4</div>
+                <div>
+                  <p>My Records</p>
+                  <div class="muted">Check your clocking & payment</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Announcements (clean layout) -->
+        <div class="card" aria-labelledby="ann">
+          <div id="ann" class="ann-head"><i class="fa-solid fa-bullhorn" style="color:var(--mitec-mid)"></i> Announcements & updates</div>
+          <div class="ann-list" id="ann-list">
+            <div style="color:var(--muted); padding:8px;">Loading announcements…</div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Sidebar: Quick Links -->
+      <aside>
+        <div class="card">
+          <div class="ann-head"><i class="fa-solid fa-link" style="color:var(--mitec-mid)"></i> Quick access</div>
+          <div class="links-grid" id="links-grid">
+            <div style="color:var(--muted); padding:8px;">Loading quick links…</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <footer style="text-align:center;color:var(--muted);margin:22px 0;font-size:0.92rem">
+      © Malaysia International Trade & Exhibition Centre — CasualMITEC
+    </footer>
+  </div>
+
+  <!-- LIGHTBOX (simple, accessible) -->
+  <div id="lightbox" aria-hidden="true" style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:9999;background:rgba(6,8,12,0.72)">
+    <div style="max-width:92vw; max-height:92vh; padding:12px">
+      <button id="lbClose" aria-label="Close" style="position:absolute;right:18px;top:18px;background:none;border:none;color:white;font-size:30px;cursor:pointer">&times;</button>
+      <img id="lbImage" src="" alt="Voucher preview" style="max-width:100%; max-height:85vh; border-radius:10px; box-shadow:0 12px 40px rgba(0,0,0,0.5)">
+    </div>
+  </div>
+
+<script>
+/* ---------- HELPER: fetch Google Sheet via gviz (robust) ---------- */
+async function fetchSheetRows(sheetId, sheetName='Sheet1'){
+  const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
+  const r = await fetch(url);
+  const text = await r.text();
+  const start = text.indexOf('{');
+  const end = text.lastIndexOf(')');
+  const json = JSON.parse(text.substring(start, end));
+  return (json.table && json.table.rows) ? json.table.rows : [];
+}
+
+/* ---------- ANNOUNCEMENTS (render cleanly) ---------- */
+const announcementsSheetID = "1Gks45PK53pcPJXePjYlRLpAhAmGPMPB3X0ec5XaLgRI";
+async function loadAnnouncements(){
+  const box = document.getElementById('ann-list');
+  try{
+    const rows = await fetchSheetRows(announcementsSheetID, 'Announcement'); // change sheet name if needed
+    box.innerHTML = '';
+    if(!rows.length){ box.innerHTML = '<div style="color:var(--muted); padding:8px">No announcements at the moment.</div>'; return; }
+    rows.forEach(r=>{
+      const title = (r.c && r.c[0] && r.c[0].v) ? r.c[0].v : '';
+      const desc  = (r.c && r.c[1] && r.c[1].v) ? r.c[1].v : '';
+      const date  = (r.c && r.c[2] && r.c[2].v) ? r.c[2].v : '';
+      const item = document.createElement('div');
+      item.className = 'ann-item';
+      item.innerHTML = `
+        <div class="ann-meta">
+          <div class="date">${escapeHtml(date)}</div>
+        </div>
+        <div class="ann-content">
+          <h4>${escapeHtml(title)}</h4>
+          ${ desc ? `<p>${escapeHtml(desc)}</p>` : '' }
+        </div>
+      `;
+      box.appendChild(item);
+    });
+  }catch(e){
+    console.error('Ann load err',e);
+    box.innerHTML = '<div style="color:#a33; padding:8px">Unable to load announcements.</div>';
+  }
+}
+
+/* ---------- QUICKLINKS ---------- */
+const linksSheetID = "1HG6XoahHcLPkwsSH5MwY3I7f-iBX6OXtZX5F1-dyYkg";
+async function loadLinks(){
+  const box = document.getElementById('links-grid');
+  try{
+    const rows = await fetchSheetRows(linksSheetID, 'Quicklinks');
+    box.innerHTML = '';
+    if(!rows.length){ box.innerHTML = '<div style="color:var(--muted); padding:8px">No quick links available.</div>'; return; }
+    rows.forEach(r=>{
+      const label = (r.c && r.c[0] && r.c[0].v) ? r.c[0].v : 'Link';
+      const href  = (r.c && r.c[1] && r.c[1].v) ? r.c[1].v : '#';
+      const a = document.createElement('a');
+      a.className = 'link-btn';
+      a.href = href;
+      a.target = /^https?:\/\//i.test(href) ? '_blank' : '_self';
+      a.rel = 'noopener noreferrer';
+      a.innerHTML = `<span style="font-weight:700">${escapeHtml(label)}</span><span style="opacity:.7"> <i class="fa-solid fa-arrow-up-right-from-square"></i></span>`;
+      box.appendChild(a);
+    });
+  }catch(e){
+    console.error('Links load err', e);
+    box.innerHTML = '<div style="color:#a33; padding:8px">Unable to load quick links.</div>';
+  }
+}
+
+/* ---------- SAFE ESCAPE ---------- */
+function escapeHtml(str=''){ return String(str).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+/* ---------- INIT ---------- */
+loadAnnouncements();
+loadLinks();
+
+/* ---------- STEP ENTRANCE STAGGER (animated) ---------- */
+document.addEventListener('DOMContentLoaded', () => {
+  const steps = Array.from(document.querySelectorAll('.step'));
+  steps.forEach((el, i) => {
+    setTimeout(()=> el.classList.add('visible'), 110 * i); // stagger
+    // make whole card clickable if data-href exists
+    const href = el.getAttribute('data-href');
+    if(href){
+      el.addEventListener('click', (e)=>{
+        // avoid interfering with button inside (lightbox)
+        if(e.target.closest('button')) return;
+        window.open(href, '_blank', 'noopener');
+      });
+    }
+  });
+});
+
+/* ---------- LIGHTBOX ---------- */
+const lightbox = document.getElementById('lightbox');
+const lbImage = document.getElementById('lbImage');
+const lbClose = document.getElementById('lbClose');
+
+document.addEventListener('click', (e)=>{
+  const trigger = e.target.closest('.open-lightbox');
+  if(trigger){
+    const src = trigger.getAttribute('data-img');
+    if(src){
+      lbImage.src = src;
+      lightbox.style.display = 'flex';
+      lightbox.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+});
+
+function closeLB(){
+  lightbox.style.display = 'none';
+  lightbox.setAttribute('aria-hidden','true');
+  lbImage.src = '';
+  document.body.style.overflow = '';
+}
+lbClose.addEventListener('click', closeLB);
+lightbox.addEventListener('click', (e)=>{
+  if(e.target === lightbox) closeLB();
+});
+document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && lightbox.style.display === 'flex') closeLB(); });
+
+</script>
+</body>
+</html>
