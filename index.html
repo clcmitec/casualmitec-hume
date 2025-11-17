@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,48 +5,43 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Quick Start — Casual MITEC</title>
 
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<!-- FontAwesome -->
+<!-- FontAwesome (for icons) -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
   :root {
     --mitec-gold: #D4AF37;
-    --mitec-blue: #224289;
-    --mitec-mid: #006699;
-    --bg: #f7f9fc;
-    --card: #ffffff;
-    --muted: #58616a;
-    --radius: 12px;
+    --mitec-mid: #34495e;
+    --muted: #888;
+    --bg-card: #fff;
+    --bg-body: #f7f9fc;
+    --step-bg: #f3f5f9;
+    --step-hover-shadow: rgba(20,30,50,0.08);
   }
 
   body {
-    font-family: "Inter", Arial, sans-serif;
-    background: var(--bg);
+    font-family: 'Arial', sans-serif;
+    background: var(--bg-body);
     margin: 0;
     padding: 20px;
-    display:flex;
-    justify-content:center;
   }
 
-  .card.quick-start {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 24px;
+  .card {
+    background: var(--bg-card);
+    border-radius: 14px;
+    padding: 20px;
     box-shadow: 0 6px 24px rgba(0,0,0,0.06);
-    max-width: 720px;
+    max-width: 700px;
     margin: 30px auto;
   }
 
-  .card.quick-start .title {
-    font-size: 1.35rem;
+  .title, .ann-title {
+    font-size: 1.3rem;
     font-weight: 700;
     margin-bottom: 18px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    color: var(--mitec-blue);
+    gap: 8px;
   }
 
   .steps {
@@ -56,30 +50,22 @@
     gap: 12px;
   }
 
-  /* clickable step styling */
   .step-link { 
     text-decoration:none; 
     color:inherit; 
     display:flex; 
     align-items:center; 
     gap:12px; 
-    transition: transform .18s cubic-bezier(.2,.9,.2,1), box-shadow .18s ease; 
+    transition:transform .15s ease, box-shadow .15s ease; 
     cursor:pointer; 
     border:none; 
     background:transparent; 
     width:100%; 
     text-align:left; 
-    padding:14px; 
+    padding:12px; 
     border-radius:10px;
     border:1px solid #e9eef6;
-    background:#ffffff;
-    transform: translateY(16px);
-    opacity:0;
-  }
-
-  .step-link.visible {
-    transform:none;
-    opacity:1;
+    background:var(--bg-card);
   }
 
   .step-link .num { 
@@ -87,17 +73,16 @@
     height:44px;
     width:44px;
     border-radius:50%;
-    background:#f3f5f9;
+    background:var(--step-bg);
     display:flex;
     align-items:center;
     justify-content:center;
     font-weight:700;
-    color: var(--mitec-mid);
   }
 
   .step-link:hover { 
     transform:translateY(-4px); 
-    box-shadow:0 8px 20px rgba(20,30,50,0.08); 
+    box-shadow:0 8px 20px var(--step-hover-shadow); 
   }
 
   .step p {
@@ -117,9 +102,7 @@
     z-index:9999; 
   }
 
-  .lb-overlay[aria-hidden="false"] { 
-    display:flex; 
-  }
+  .lb-overlay[aria-hidden="false"] { display:flex; }
 
   .lb-backdrop { 
     position:absolute; 
@@ -179,9 +162,34 @@
     z-index:3; 
   }
 
-  .lb-close:hover { 
-    transform:scale(1.05); 
+  .lb-close:hover { transform:scale(1.05); }
+
+  /* Announcements */
+  .ann-list div {
+    padding:6px 0;
+    border-bottom:1px solid #eee;
   }
+
+  .links-grid {
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+
+  .link-btn {
+    display:flex;
+    align-items:center;
+    gap:6px;
+    padding:8px 12px;
+    background:#f3f5f9;
+    border-radius:6px;
+    font-weight:600;
+    text-decoration:none;
+    color:#1c1f24;
+    transition:transform .12s ease;
+  }
+
+  .link-btn:hover { transform:translateY(-2px); background:#e6e8f0; }
 
   @media (max-width:560px){
     .lb-inner img { max-height:70vh; }
@@ -199,7 +207,6 @@
   </div>
 
   <div class="steps" role="list">
-
     <a class="step step-link" role="listitem" href="https://www.casualmitec.online/first-time-application" target="_blank" rel="noopener noreferrer">
       <div class="num">1</div>
       <p>Register : Submit your Bank Details</p>
@@ -207,10 +214,9 @@
 
     <a class="step step-link" role="listitem" href="https://www.casualmitec.online/sign-in-sign-out" target="_blank" rel="noopener noreferrer">
       <div class="num">2</div>
-      <p>Perform SIGN IN / SIGN OUT every time you come to work</p>
+      <p>Performing SIGN IN / SIGN OUT every time you come to work</p>
     </a>
 
-    <!-- Step 3 uses lightbox -->
     <button class="step step-link lb-trigger" role="listitem" data-img="https://eus-cdn.sway.static.microsoft/s/RZPlGrjCXdD5QeF2/images/NCPljCf2-Hl4r0?quality=479&allowAnimation=true&embeddedHost=true&filterEffectsFormula=Grayscale=0,Contrast=1.15">
       <div class="num">3</div>
       <p>Submit Your Voucher to Guard House for Payment Processing</p>
@@ -220,7 +226,28 @@
       <div class="num">4</div>
       <p>Check your Clocking and Payment Record</p>
     </a>
+  </div>
+</div>
 
+<!-- Announcements -->
+<div class="card announcements" aria-labelledby="ann">
+  <div class="ann-title">
+    <i class="fa-solid fa-bullhorn" style="color:var(--mitec-mid)"></i>
+    Announcements & updates
+  </div>
+  <div class="ann-list" id="ann-list">
+    <div style="color:var(--muted)">Loading announcements…</div>
+  </div>
+</div>
+
+<!-- Quick Links -->
+<div class="card quick-links" aria-labelledby="ql">
+  <div class="ann-title">
+    <i class="fa-solid fa-link" style="color:var(--mitec-mid)"></i>
+    Quick access
+  </div>
+  <div class="links-grid" id="links-grid">
+    <div style="color:var(--muted)">Loading quick links…</div>
   </div>
 </div>
 
@@ -237,12 +264,6 @@
 </div>
 
 <script>
-  // Step animation stagger
-  document.addEventListener('DOMContentLoaded', () => {
-    const steps = Array.from(document.querySelectorAll('.step'));
-    steps.forEach((el,i)=> setTimeout(()=> el.classList.add('visible'), i*120));
-  });
-
   // Lightbox functionality
   (function(){
     const lb = document.getElementById('lightbox');
@@ -265,91 +286,72 @@
     }
 
     triggers.forEach(btn => {
-      btn.addEventListener('click', (e) => {
+      btn.addEventListener('click', e => {
         e.preventDefault();
-        const src = btn.getAttribute('data-img');
-        openLightbox(src);
+        openLightbox(btn.getAttribute('data-img'));
       });
     });
 
     closeEls.forEach(el => el.addEventListener('click', closeLightbox));
     lb.querySelector('.lb-backdrop').addEventListener('click', closeLightbox);
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && lb.getAttribute('aria-hidden') === 'false') closeLightbox();
+    document.addEventListener('keydown', e => {
+      if(e.key==='Escape' && lb.getAttribute('aria-hidden')==='false') closeLightbox();
     });
     lbImage.addEventListener('click', closeLightbox);
   })();
 
-
-
-  // >>> Paste your real Sheet IDs here (these are from you)
+  // Dynamic Announcements and Quick Links
   const announcementsSheetID = "1Gks45PK53pcPJXePjYlRLpAhAmGPMPB3X0ec5XaLgRI";
-  const linksSheetID         = "1HG6XoahHcLPkwsSH5MwY3I7f-iBX6OXtZX5F1-dyYkg";
+  const linksSheetID = "1HG6XoahHcLPkwsSH5MwY3I7f-iBX6OXtZX5F1-dyYkg";
 
-  // Helper: fetch published google sheet JSON
-  async function fetchSheetRows(sheetId, sheetName = 'Sheet1') {
+  async function fetchSheetRows(sheetId, sheetName='Sheet1'){
     const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
     const r = await fetch(url);
     const text = await r.text();
-    // strip google's padding and parse
-    const json = JSON.parse(text.substr(47).slice(0, -2));
-    return json.table.rows || [];
+    return JSON.parse(text.substr(47).slice(0,-2)).table.rows || [];
   }
 
-  // Render announcements
-  async function loadAnnouncements() {
-    const box = document.getElementById('ann-list');
-    try {
+  function escapeHtml(str=''){
+    return String(str).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+
+  async function loadAnnouncements(){
+    const box=document.getElementById('ann-list');
+    try{
       const rows = await fetchSheetRows(announcementsSheetID);
-      box.innerHTML = '';
-      if(!rows.length){ box.innerHTML = '<div style="color:var(--muted)">No announcements at the moment.</div>'; return; }
-      rows.forEach((r) => {
-        const text = r.c && r.c[0] ? r.c[0].v : '';
+      box.innerHTML='';
+      if(!rows.length){box.innerHTML='<div style="color:var(--muted)">No announcements at the moment.</div>'; return;}
+      rows.forEach(r=>{
+        const text = r.c && r.c[0]?r.c[0].v:'';
         const item = document.createElement('div');
-        item.className = 'ann-item';
-        item.innerHTML = `<div class="ann-item"><h4>${escapeHtml(text)}</h4></div>`;
+        item.className='ann-item';
+        item.innerHTML=`<h4>${escapeHtml(text)}</h4>`;
         box.appendChild(item);
       });
-    } catch(e) {
-      console.error('Ann load err', e);
-      box.innerHTML = '<div style="color:#a33">Unable to load announcements.</div>';
-    }
+    } catch(e){console.error(e); box.innerHTML='<div style="color:#a33">Unable to load announcements.</div>';}
   }
 
-  // Render quick links
-  async function loadLinks() {
-    const box = document.getElementById('links-grid');
-    try {
+  async function loadLinks(){
+    const box=document.getElementById('links-grid');
+    try{
       const rows = await fetchSheetRows(linksSheetID);
-      box.innerHTML = '';
-      if(!rows.length){ box.innerHTML = '<div style="color:var(--muted)">No quick links available.</div>'; return; }
-      rows.forEach((r) => {
-        const label = r.c && r.c[0] ? r.c[0].v : 'Link';
-        const href  = r.c && r.c[1] ? r.c[1].v : '#';
+      box.innerHTML='';
+      if(!rows.length){box.innerHTML='<div style="color:var(--muted)">No quick links available.</div>'; return;}
+      rows.forEach(r=>{
+        const label=r.c && r.c[0]?r.c[0].v:'Link';
+        const href=r.c && r.c[1]?r.c[1].v:'#';
         const a = document.createElement('a');
-        a.className = 'link-btn';
-        a.href = href;
-        a.rel = 'noopener noreferrer';
-        a.innerHTML = `<i class="fa-solid fa-arrow-right"></i><span>${escapeHtml(label)}</span>`;
-        // for internal relative links, open same tab; for external, open new tab
-        if (/^https?:\/\//i.test(href)) a.target = '_blank';
+        a.className='link-btn';
+        a.href=href;
+        a.innerHTML=`<i class="fa-solid fa-arrow-right"></i><span>${escapeHtml(label)}</span>`;
+        if(/^https?:\/\//i.test(href)) a.target='_blank';
         box.appendChild(a);
       });
-    } catch(e) {
-      console.error('Links load err', e);
-      box.innerHTML = '<div style="color:#a33">Unable to load quick links.</div>';
-    }
+    } catch(e){console.error(e); box.innerHTML='<div style="color:#a33">Unable to load quick links.</div>';}
   }
 
-  // small helper to escape simple HTML injection from sheet cells
-  function escapeHtml(str=''){
-    return String(str).replace(/[&<>"']/g, function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]; });
-  }
-
-  // init
   loadAnnouncements();
   loadLinks();
 </script>
-
 </body>
 </html>
