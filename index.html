@@ -3,45 +3,46 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quick Start — Casual MITEC</title>
+<title>Quick Start & Announcements — Casual MITEC</title>
 
-<!-- FontAwesome (for icons) -->
+<!-- FontAwesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
   :root {
     --mitec-gold: #D4AF37;
-    --mitec-mid: #34495e;
-    --muted: #888;
-    --bg-card: #fff;
-    --bg-body: #f7f9fc;
-    --step-bg: #f3f5f9;
-    --step-hover-shadow: rgba(20,30,50,0.08);
+    --mitec-mid: #224289;
+    --bg: #f7f9fc;
+    --card: #ffffff;
+    --muted: #55606a;
+    --radius: 12px;
   }
 
   body {
-    font-family: 'Arial', sans-serif;
-    background: var(--bg-body);
+    font-family: 'Inter', Arial, sans-serif;
+    background: var(--bg);
     margin: 0;
     padding: 20px;
   }
 
-  .card {
-    background: var(--bg-card);
-    border-radius: 14px;
+  /* Quick Start Card */
+  .card.quick-start {
+    background: var(--card);
+    border-radius: var(--radius);
     padding: 20px;
     box-shadow: 0 6px 24px rgba(0,0,0,0.06);
     max-width: 700px;
     margin: 30px auto;
   }
 
-  .title, .ann-title {
+  .card.quick-start .title {
     font-size: 1.3rem;
     font-weight: 700;
     margin-bottom: 18px;
     display: flex;
     align-items: center;
     gap: 8px;
+    color: var(--mitec-mid);
   }
 
   .steps {
@@ -50,150 +51,98 @@
     gap: 12px;
   }
 
-  .step-link { 
-    text-decoration:none; 
-    color:inherit; 
-    display:flex; 
-    align-items:center; 
-    gap:12px; 
-    transition:transform .15s ease, box-shadow .15s ease; 
-    cursor:pointer; 
-    border:none; 
-    background:transparent; 
-    width:100%; 
-    text-align:left; 
-    padding:12px; 
-    border-radius:10px;
-    border:1px solid #e9eef6;
-    background:var(--bg-card);
+  .step-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: transform .12s ease, box-shadow .12s ease;
+    cursor: pointer;
+    border: 1px solid #e9eef6;
+    border-radius: var(--radius);
+    background: var(--card);
+    padding: 12px;
   }
 
-  .step-link .num { 
-    flex: 0 0 44px; 
-    height:44px;
-    width:44px;
-    border-radius:50%;
-    background:var(--step-bg);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:700;
+  .step-link .num {
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #f3f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
   }
 
-  .step-link:hover { 
-    transform:translateY(-4px); 
-    box-shadow:0 8px 20px var(--step-hover-shadow); 
+  .step-link:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(20,30,50,0.08);
   }
 
   .step p {
     margin: 0;
     font-size: 1rem;
     font-weight: 600;
-    color:#1c1f24;
+    color: #1c1f24;
   }
 
-  /* Lightbox overlay */
-  .lb-overlay { 
-    position:fixed; 
-    inset:0; 
-    display:none; 
-    align-items:center; 
-    justify-content:center; 
-    z-index:9999; 
+  /* Announcements Card */
+  .card.announcements {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+    max-width: 700px;
+    margin: 20px auto;
   }
 
-  .lb-overlay[aria-hidden="false"] { display:flex; }
-
-  .lb-backdrop { 
-    position:absolute; 
-    inset:0; 
-    background:rgba(6,8,12,0.72); 
-    backdrop-filter: blur(4px); 
-    -webkit-backdrop-filter: blur(4px); 
+  .ann-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--mitec-mid);
+    font-weight: 700;
+    margin-bottom: 12px;
   }
 
-  .lb-content { 
-    position:relative; 
-    max-width:95vw; 
-    max-height:92vh; 
-    z-index:2; 
-    display:flex; 
-    align-items:center; 
-    justify-content:center; 
-    padding:12px; 
+  .ann-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 
-  .lb-inner { 
-    max-width:100%; 
-    max-height:100%; 
-    display:flex; 
-    flex-direction:column; 
-    align-items:center; 
-    gap:10px; 
+  .ann-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    border-left: 4px solid var(--mitec-gold);
+    background: #fffdf6;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    box-shadow: 0 2px 8px rgba(10,20,30,0.03);
   }
 
-  .lb-inner img { 
-    max-width:100%; 
-    max-height:82vh; 
-    border-radius:10px; 
-    box-shadow:0 10px 40px rgba(0,0,0,0.4); 
-    object-fit:contain; 
+  .ann-item h4 {
+    margin: 0;
+    font-size: 0.98rem;
+    color: var(--mitec-mid);
+    font-weight: 700;
   }
 
-  .lb-caption { 
-    color:#f3f6f9; 
-    font-weight:600; 
-    font-size:0.95rem; 
-    text-align:center; 
+  .ann-item p {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: 0.95rem;
   }
 
-  .lb-close { 
-    position:absolute; 
-    right:8px; 
-    top:8px; 
-    background:transparent; 
-    border:none; 
-    color:#fff; 
-    font-size:34px; 
-    line-height:1; 
-    padding:6px 10px; 
-    border-radius:8px; 
-    cursor:pointer; 
-    z-index:3; 
-  }
-
-  .lb-close:hover { transform:scale(1.05); }
-
-  /* Announcements */
-  .ann-list div {
-    padding:6px 0;
-    border-bottom:1px solid #eee;
-  }
-
-  .links-grid {
-    display:flex;
-    flex-wrap:wrap;
-    gap:12px;
-  }
-
-  .link-btn {
-    display:flex;
-    align-items:center;
-    gap:6px;
-    padding:8px 12px;
-    background:#f3f5f9;
-    border-radius:6px;
-    font-weight:600;
-    text-decoration:none;
-    color:#1c1f24;
-    transition:transform .12s ease;
-  }
-
-  .link-btn:hover { transform:translateY(-2px); background:#e6e8f0; }
-
-  @media (max-width:560px){
-    .lb-inner img { max-height:70vh; }
-    .lb-close { font-size:28px; right:4px; top:4px; }
+  footer {
+    text-align: center;
+    color: var(--muted);
+    margin: 18px 0 60px;
+    font-size: 0.9rem;
   }
 </style>
 </head>
@@ -207,22 +156,19 @@
   </div>
 
   <div class="steps" role="list">
-    <a class="step step-link" role="listitem" href="https://www.casualmitec.online/first-time-application" target="_blank" rel="noopener noreferrer">
+    <a class="step step-link" role="listitem" href="https://www.casualmitec.online/first-time-application" target="_blank">
       <div class="num">1</div>
       <p>Register : Submit your Bank Details</p>
     </a>
-
-    <a class="step step-link" role="listitem" href="https://www.casualmitec.online/sign-in-sign-out" target="_blank" rel="noopener noreferrer">
+    <a class="step step-link" role="listitem" href="https://www.casualmitec.online/sign-in-sign-out" target="_blank">
       <div class="num">2</div>
       <p>Performing SIGN IN / SIGN OUT every time you come to work</p>
     </a>
-
-    <button class="step step-link lb-trigger" role="listitem" data-img="https://eus-cdn.sway.static.microsoft/s/RZPlGrjCXdD5QeF2/images/NCPljCf2-Hl4r0?quality=479&allowAnimation=true&embeddedHost=true&filterEffectsFormula=Grayscale=0,Contrast=1.15">
+    <button class="step step-link" role="listitem" onclick="window.open('https://eus-cdn.sway.static.microsoft/s/RZPlGrjCXdD5QeF2/images/NCPljCf2-Hl4r0?quality=479&allowAnimation=true&embeddedHost=true&filterEffectsFormula=Grayscale=0,Contrast=1.15', '_blank')">
       <div class="num">3</div>
       <p>Submit Your Voucher to Guard House for Payment Processing</p>
     </button>
-
-    <a class="step step-link" role="listitem" href="https://www.casualmitec.online/my-record" target="_blank" rel="noopener noreferrer">
+    <a class="step step-link" role="listitem" href="https://www.casualmitec.online/my-record" target="_blank">
       <div class="num">4</div>
       <p>Check your Clocking and Payment Record</p>
     </a>
@@ -231,127 +177,54 @@
 
 <!-- Announcements -->
 <div class="card announcements" aria-labelledby="ann">
-  <div class="ann-title">
-    <i class="fa-solid fa-bullhorn" style="color:var(--mitec-mid)"></i>
-    Announcements & updates
-  </div>
+  <div class="ann-title"><i class="fa-solid fa-bullhorn" style="color:var(--mitec-mid)"></i> Announcements & Updates</div>
   <div class="ann-list" id="ann-list">
     <div style="color:var(--muted)">Loading announcements…</div>
   </div>
 </div>
 
-<!-- Quick Links -->
-<div class="card quick-links" aria-labelledby="ql">
-  <div class="ann-title">
-    <i class="fa-solid fa-link" style="color:var(--mitec-mid)"></i>
-    Quick access
-  </div>
-  <div class="links-grid" id="links-grid">
-    <div style="color:var(--muted)">Loading quick links…</div>
-  </div>
-</div>
-
-<!-- Lightbox -->
-<div id="lightbox" class="lb-overlay" aria-hidden="true" aria-haspopup="dialog">
-  <div class="lb-backdrop" data-close></div>
-  <div class="lb-content">
-    <button class="lb-close" data-close>&times;</button>
-    <div class="lb-inner">
-      <img id="lb-image" src="" alt="Voucher Image">
-      <div id="lb-caption" class="lb-caption">Voucher example — tap to close</div>
-    </div>
-  </div>
-</div>
+<footer>© Malaysia International Trade & Exhibition Centre — CasualMITEC</footer>
 
 <script>
-  // Lightbox functionality
-  (function(){
-    const lb = document.getElementById('lightbox');
-    const lbImage = document.getElementById('lb-image');
-    const triggers = document.querySelectorAll('.lb-trigger');
-    const closeEls = lb.querySelectorAll('[data-close]');
-
-    function openLightbox(imgSrc) {
-      lbImage.src = imgSrc;
-      lb.setAttribute('aria-hidden', 'false');
-      lb.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeLightbox() {
-      lb.setAttribute('aria-hidden', 'true');
-      lb.style.display = 'none';
-      lbImage.src = '';
-      document.body.style.overflow = '';
-    }
-
-    triggers.forEach(btn => {
-      btn.addEventListener('click', e => {
-        e.preventDefault();
-        openLightbox(btn.getAttribute('data-img'));
-      });
-    });
-
-    closeEls.forEach(el => el.addEventListener('click', closeLightbox));
-    lb.querySelector('.lb-backdrop').addEventListener('click', closeLightbox);
-    document.addEventListener('keydown', e => {
-      if(e.key==='Escape' && lb.getAttribute('aria-hidden')==='false') closeLightbox();
-    });
-    lbImage.addEventListener('click', closeLightbox);
-  })();
-
-  // Dynamic Announcements and Quick Links
+  // Paste your published Google Sheet ID here
   const announcementsSheetID = "1Gks45PK53pcPJXePjYlRLpAhAmGPMPB3X0ec5XaLgRI";
-  const linksSheetID = "1HG6XoahHcLPkwsSH5MwY3I7f-iBX6OXtZX5F1-dyYkg";
 
-  async function fetchSheetRows(sheetId, sheetName='Sheet1'){
+  async function fetchSheetRows(sheetId, sheetName = 'Sheet1') {
     const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
     const r = await fetch(url);
     const text = await r.text();
-    return JSON.parse(text.substr(47).slice(0,-2)).table.rows || [];
+    const json = JSON.parse(text.substr(47).slice(0, -2));
+    return json.table.rows || [];
   }
 
   function escapeHtml(str=''){
-    return String(str).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    return String(str).replace(/[&<>"']/g, function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]; });
   }
 
-  async function loadAnnouncements(){
-    const box=document.getElementById('ann-list');
-    try{
+  async function loadAnnouncements() {
+    const box = document.getElementById('ann-list');
+    try {
       const rows = await fetchSheetRows(announcementsSheetID);
-      box.innerHTML='';
-      if(!rows.length){box.innerHTML='<div style="color:var(--muted)">No announcements at the moment.</div>'; return;}
-      rows.forEach(r=>{
-        const text = r.c && r.c[0]?r.c[0].v:'';
+      box.innerHTML = '';
+      if(!rows.length){ 
+        box.innerHTML = '<div style="color:var(--muted)">No announcements at the moment.</div>'; 
+        return; 
+      }
+      rows.forEach(r => {
+        const text = r.c && r.c[0] ? r.c[0].v : '';
         const item = document.createElement('div');
-        item.className='ann-item';
-        item.innerHTML=`<h4>${escapeHtml(text)}</h4>`;
+        item.className = 'ann-item';
+        item.innerHTML = `<h4>${escapeHtml(text)}</h4>`;
         box.appendChild(item);
       });
-    } catch(e){console.error(e); box.innerHTML='<div style="color:#a33">Unable to load announcements.</div>';}
-  }
-
-  async function loadLinks(){
-    const box=document.getElementById('links-grid');
-    try{
-      const rows = await fetchSheetRows(linksSheetID);
-      box.innerHTML='';
-      if(!rows.length){box.innerHTML='<div style="color:var(--muted)">No quick links available.</div>'; return;}
-      rows.forEach(r=>{
-        const label=r.c && r.c[0]?r.c[0].v:'Link';
-        const href=r.c && r.c[1]?r.c[1].v:'#';
-        const a = document.createElement('a');
-        a.className='link-btn';
-        a.href=href;
-        a.innerHTML=`<i class="fa-solid fa-arrow-right"></i><span>${escapeHtml(label)}</span>`;
-        if(/^https?:\/\//i.test(href)) a.target='_blank';
-        box.appendChild(a);
-      });
-    } catch(e){console.error(e); box.innerHTML='<div style="color:#a33">Unable to load quick links.</div>';}
+    } catch(e) {
+      console.error('Announcements load error', e);
+      box.innerHTML = '<div style="color:#a33">Unable to load announcements.</div>';
+    }
   }
 
   loadAnnouncements();
-  loadLinks();
 </script>
+
 </body>
 </html>
