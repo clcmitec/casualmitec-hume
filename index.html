@@ -1,221 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Announcements & Quick Start — Casual MITEC</title>
 
-<!-- FontAwesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-  :root {
-    --mitec-gold: #D4AF37;
-    --mitec-mid: #224289;
-    --bg: #f7f9fc;
-    --card: #ffffff;
-    --muted: #55606a;
-    --radius: 12px;
+  :root{
+    --mitec-gold:#D4AF37;
+    --mitec-mid:#224289;
+    --bg:#f7f9fc;
+    --card:#ffffff;
+    --muted:#55606a;
+    --radius:12px;
+    --accent: #0b78ff;
   }
 
-  body {
-    font-family: 'Inter', Arial, sans-serif;
-    background: var(--bg);
-    margin: 0;
-    padding: 20px;
+  /* Base */
+  *{box-sizing:border-box}
+  body{
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background:var(--bg); margin:0; padding:28px;
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    color:#0f172a;
   }
 
-  /* Card styling */
-  .card {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 20px;
-    box-shadow: 0 6px 24px rgba(0,0,0,0.06);
-    max-width: 700px;
-    margin: 20px auto;
-  }
+  /* Layout */
+  .wrap{max-width:980px;margin:0 auto;display:grid;grid-template-columns:1fr;gap:18px;}
+  @media(min-width:980px){ .wrap{grid-template-columns:1fr 420px} }
 
-  /* Announcements */
-  .ann-title {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--mitec-mid);
-    font-weight: 700;
-    margin-bottom: 12px;
-  }
+  .card{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:0 8px 30px rgba(12,18,30,0.06);}
 
-  .ann-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
+  /* Title */
+  .ann-title{display:flex;align-items:center;gap:10px;color:var(--mitec-mid);font-weight:700;margin-bottom:12px;font-size:1.05rem}
+  .ann-title i{transform-origin:center; animation:icon-bob 4s ease-in-out infinite;}
+  @keyframes icon-bob{0%{transform:translateY(0)}50%{transform:translateY(-4px)}100%{transform:translateY(0)}}
 
-  .ann-item {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    border-left: 4px solid var(--mitec-mid);
-    background: #FBFBFE;
-    padding: 12px 14px;
-    border-radius: var(--radius);
-    box-shadow: 0 2px 8px rgba(10,20,30,0.03);
-  }
+  /* Announcements list & skeleton */
+  .ann-list{display:flex;flex-direction:column;gap:12px}
+  .skeleton{height:72px;border-radius:10px;background:linear-gradient(90deg,#f0f3f8 0%, #e8edf6 50%, #f0f3f8 100%);background-size:200% 100%;animation:shimmer 1.1s linear infinite}
+  @keyframes shimmer{from{background-position:200% 0}to{background-position:-200% 0}}
 
-  .ann-item h4 {
-    margin: 0;
-    font-size: 0.98rem;
-    color: var(--muted);
-    font-weight: 600;
+  /* Ann item */
+  .ann-item{
+    display:flex;gap:12px;align-items:flex-start;border-left:4px solid var(--mitec-mid);
+    background:#FBFBFE;padding:14px;border-radius:10px;box-shadow:0 6px 14px rgba(12,18,30,0.04);
+    transform:translateY(8px);opacity:0; /* initial for reveal */
+    transition:transform 420ms cubic-bezier(.2,.9,.2,1),opacity 320ms ease,box-shadow 220ms ease;
+    cursor:pointer; position:relative; overflow:hidden;
   }
+  /* Reveal when JS adds .is-visible */
+  .ann-item.is-visible{ transform:none; opacity:1 }
 
-  .ann-item p {
-    margin: 6px 0 0;
-    color: var(--muted);
-    font-size: 0.95rem;
+  .ann-item h4{margin:0;font-size:0.98rem;color:var(--muted);font-weight:700}
+  .ann-item p{margin:6px 0 0;color:var(--muted);font-size:0.95rem;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+  /* Expanded detail */
+  .ann-detail{max-height:0;overflow:hidden;transition:max-height 360ms cubic-bezier(.2,.9,.2,1),padding 260ms ease}
+  .ann-item[aria-expanded="true"] .ann-detail{max-height:420px;padding-top:10px}
+
+  /* NEW ribbon */
+  .ribbon{position:absolute;right:12px;top:12px;background:var(--mitec-gold);color:#fff;padding:6px 8px;border-radius:999px;font-size:12px;font-weight:700;box-shadow:0 6px 18px rgba(212,175,55,0.18)}
+
+  /* Quick start */
+  .quick-start .title{font-size:1.15rem;font-weight:800;margin-bottom:16px;display:flex;align-items:center;gap:8px;color:var(--mitec-mid)}
+  .steps{display:flex;flex-direction:column;gap:12px}
+  .step-link{
+    display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;border:1px solid #e9eef6;padding:12px;border-radius:12px;background:linear-gradient(180deg,#fff,#fcfdff);
+    transition:transform 220ms cubic-bezier(.2,.9,.2,1),box-shadow 220ms ease; outline:none;
   }
+  .step-link:focus{box-shadow:0 6px 20px rgba(11,120,255,0.12);transform:translateY(-2px)}
+  .step-link:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(9,14,30,0.08)}
+  .step-link .num{flex:0 0 44px;width:44px;height:44px;border-radius:50%;background:#f3f5f9;display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--mitec-mid)}
+  .step-link p{margin:0;font-weight:700;font-size:0.98rem;color:#111827}
 
-  /* Quick Start Card */
-  .card.quick-start .title {
-    font-size: 1.3rem;
-    font-weight: 700;
-    margin-bottom: 18px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--mitec-mid);
-  }
+  /* small note / footer */
+  footer{grid-column:1/-1;text-align:center;color:var(--muted);margin-top:8px;font-size:0.9rem}
 
-  .steps {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
+  /* subtle pulse on important CTA (example) */
+  .pulse{display:inline-block;padding:6px 10px;border-radius:8px;background:linear-gradient(90deg,var(--mitec-gold),#cfa93b);color:#fff;font-weight:700;box-shadow:0 8px 30px rgba(212,175,55,0.12)}
 
-  .step-link {
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    transition: transform .12s ease, box-shadow .12s ease;
-    cursor: pointer;
-    border: 1px solid #e9eef6;
-    border-radius: var(--radius);
-    background: var(--card);
-    padding: 12px;
-  }
-
-  .step-link .num {
-    flex: 0 0 44px;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: #f3f5f9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-  }
-
-  .step-link:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(20,30,50,0.08);
-  }
-
-  .step p {
-    margin: 0;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #1c1f24;
-  }
-
-  footer {
-    text-align: center;
-    color: var(--muted);
-    margin: 18px 0 60px;
-    font-size: 0.9rem;
+  /* respects reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    .ann-item, .step-link, .ann-detail, .skeleton { animation: none !important; transition: none !important; transform:none !important; }
   }
 </style>
 </head>
 <body>
-
-<!-- Announcements -->
-<div class="card announcements" aria-labelledby="ann">
-  <div class="ann-title"><i class="fa-solid fa-bullhorn" style="color:var(--mitec-mid)"></i> Announcements & Updates</div>
-  <div class="ann-list" id="ann-list">
-    <div style="color:var(--muted)">Loading announcements…</div>
+<div class="wrap">
+  <!-- Announcements -->
+  <div class="card announcements" aria-labelledby="ann">
+    <div class="ann-title">
+      <i class="fa-solid fa-bullhorn" style="color:var(--mitec-mid)"></i>
+      Announcements & Updates
+    </div>
+    <div class="ann-list" id="ann-list">
+      <!-- skeleton placeholders while loading -->
+      <div class="skeleton" style="height:72px;border-radius:10px"></div>
+      <div class="skeleton" style="height:72px;border-radius:10px;opacity:0.9"></div>
+      <div class="skeleton" style="height:72px;border-radius:10px;opacity:0.7"></div>
+    </div>
   </div>
+
+  <!-- Quick Start -->
+  <div class="card quick-start" aria-labelledby="qs">
+    <div class="title">
+      <i class="fa-solid fa-flag" style="color:var(--mitec-gold)"></i>
+      Get Your Payment — 4 quick steps
+    </div>
+
+    <div class="steps" role="list">
+      <a class="step-link" role="listitem" href="https://www.casualmitec.online/first-time-application" target="_blank" rel="noreferrer">
+        <div class="num">1</div>
+        <p>Register : Submit your Bank Details</p>
+      </a>
+
+      <a class="step-link" role="listitem" href="https://www.casualmitec.online/sign-in-sign-out" target="_blank" rel="noreferrer">
+        <div class="num">2</div>
+        <p>Perform SIGN IN / SIGN OUT each time you work</p>
+      </a>
+
+      <button class="step-link" role="listitem" onclick="window.open('https://eus-cdn.sway.static.microsoft/s/RZPlGrjCXdD5QeF2/images/NCPljCf2-Hl4r0?quality=479&allowAnimation=true&embeddedHost=true&filterEffectsFormula=Grayscale=0,Contrast=1.15', '_blank')">
+        <div class="num">3</div>
+        <p>Submit Your Voucher to Guard House for Payment Processing</p>
+      </button>
+
+      <a class="step-link" role="listitem" href="https://www.casualmitec.online/my-record" target="_blank" rel="noreferrer">
+        <div class="num">4</div>
+        <p>Check your Clocking & Payment Record</p>
+      </a>
+    </div>
+
+    <div style="margin-top:14px;color:var(--muted);font-size:0.92rem">
+      Tip: always keep your bank details current — payments follow the registered account.
+    </div>
+  </div>
+
+  <footer>© Malaysia International Trade & Exhibition Centre — CasualMITEC</footer>
 </div>
-
-<!-- Quick Start -->
-<div class="card quick-start" aria-labelledby="qs">
-  <div class="title">
-    <i class="fa-solid fa-flag" style="color:var(--mitec-gold)"></i>
-    Get Your Payment — 4 quick steps
-  </div>
-
-  <div class="steps" role="list">
-    <a class="step step-link" role="listitem" href="https://www.casualmitec.online/first-time-application" target="_blank">
-      <div class="num">1</div>
-      <p>Register : Submit your Bank Details</p>
-    </a>
-    <a class="step step-link" role="listitem" href="https://www.casualmitec.online/sign-in-sign-out" target="_blank">
-      <div class="num">2</div>
-      <p>Performing SIGN IN / SIGN OUT every time you come to work</p>
-    </a>
-    <button class="step step-link" role="listitem" onclick="window.open('https://eus-cdn.sway.static.microsoft/s/RZPlGrjCXdD5QeF2/images/NCPljCf2-Hl4r0?quality=479&allowAnimation=true&embeddedHost=true&filterEffectsFormula=Grayscale=0,Contrast=1.15', '_blank')">
-      <div class="num">3</div>
-      <p>Submit Your Voucher to Guard House for Payment Processing</p>
-    </button>
-    <a class="step step-link" role="listitem" href="https://www.casualmitec.online/my-record" target="_blank">
-      <div class="num">4</div>
-      <p>Check your Clocking and Payment Record</p>
-    </a>
-  </div>
-</div>
-
-<footer>© Malaysia International Trade & Exhibition Centre — CasualMITEC</footer>
 
 <script>
+  // Sheet ID
   const announcementsSheetID = "1Gks45PK53pcPJXePjYlRLpAhAmGPMPB3X0ec5XaLgRI";
 
-  async function fetchSheetRows(sheetId, sheetName = 'Sheet1') {
+  // util: sanitize HTML text
+  function escapeHtml(str=''){
+    return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]);
+  }
+
+  // fetch google sheet (gviz JSON)
+  async function fetchSheetRows(sheetId, sheetName='Sheet1'){
     const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
-    const r = await fetch(url);
-    const text = await r.text();
-    const json = JSON.parse(text.substr(47).slice(0, -2));
+    const res = await fetch(url);
+    const text = await res.text();
+    // gviz returns "/*O_o*/\ngoogle.visualization....(JSON)"
+    const json = JSON.parse(text.substr(47).slice(0,-2));
     return json.table.rows || [];
   }
 
-  function escapeHtml(str=''){
-    return String(str).replace(/[&<>"']/g, function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]; });
+  // reveal logic: use IntersectionObserver to animate in
+  function observeReveal(node){
+    const io = new IntersectionObserver((entries, obs) => {
+      entries.forEach(e => {
+        if(e.isIntersecting){
+          e.target.classList.add('is-visible');
+          obs.unobserve(e.target);
+        }
+      });
+    }, {threshold:0.12});
+    io.observe(node);
   }
 
-  async function loadAnnouncements() {
-    const box = document.getElementById('ann-list');
+  // Insert announcements with staggered reveal and expand behavior
+  async function loadAnnouncements(){
+    const container = document.getElementById('ann-list');
     try {
       const rows = await fetchSheetRows(announcementsSheetID);
-      box.innerHTML = '';
-      if(!rows.length){ 
-        box.innerHTML = '<div style="color:var(--muted)">No announcements at the moment.</div>'; 
-        return; 
+      container.innerHTML = '';
+      if(!rows.length){
+        container.innerHTML = '<div style="color:var(--muted)">No announcements at the moment.</div>';
+        return;
       }
-      rows.forEach(r => {
-        const text = r.c && r.c[0] ? r.c[0].v : '';
+
+      // Build elements (stagger)
+      rows.forEach((r, idx) => {
+        const text = r.c && r.c[0] ? String(r.c[0].v) : '';
+        const sub = r.c && r.c[1] ? String(r.c[1].v) : ''; // optional second column e.g. date
         const item = document.createElement('div');
         item.className = 'ann-item';
-        item.innerHTML = `<h4>${escapeHtml(text)}</h4>`;
-        box.appendChild(item);
+        item.setAttribute('tabindex', '0');
+        item.setAttribute('role','button');
+        item.setAttribute('aria-expanded','false');
+
+        // basic content - short preview in <p> (we keep full in ann-detail)
+        item.innerHTML = `
+          <div style="flex:1">
+            <h4>${escapeHtml(text.split('\n')[0] || text)}</h4>
+            <p>${escapeHtml((text.length>140)? text.slice(0,140)+'…': text)}</p>
+            <div class="ann-detail"><div>${escapeHtml(text).replace(/\n/g,'<br>')}</div></div>
+          </div>
+        `;
+        // mark first item as NEW (simple)
+        if(idx === 0){
+          const ribbon = document.createElement('span');
+          ribbon.className = 'ribbon';
+          ribbon.innerText = 'NEW';
+          item.appendChild(ribbon);
+        }
+
+        // add click/keyboard toggle to expand
+        item.addEventListener('click', (e)=>{
+          const open = item.getAttribute('aria-expanded') === 'true';
+          item.setAttribute('aria-expanded', open ? 'false' : 'true');
+        });
+        item.addEventListener('keydown', (e)=>{
+          if(e.key === 'Enter' || e.key === ' '){
+            e.preventDefault();
+            item.click();
+          }
+        });
+
+        // staggered reveal: small delay
+        item.style.transitionDelay = `${idx * 80}ms`;
+        container.appendChild(item);
+        // observe for visible animate
+        observeReveal(item);
       });
-    } catch(e) {
-      console.error('Announcements load error', e);
-      box.innerHTML = '<div style="color:#a33">Unable to load announcements.</div>';
+
+    } catch(err){
+      console.error('Announcements load error', err);
+      container.innerHTML = '<div style="color:#a33">Unable to load announcements. Try again later.</div>';
     }
   }
 
+  // Init
   loadAnnouncements();
-</script>
 
+  // Optional: keyboard focus trap for quick-start buttons isn't necessary, but ensure they are accessible
+</script>
 </body>
 </html>
