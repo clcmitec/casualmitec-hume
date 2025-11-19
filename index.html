@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
@@ -17,8 +17,8 @@
     --radius:12px;
     --accent:#0b78ff;
     --carousel-interval:6000; /* ms */
-    --step-duration:900; /* ms (4x faster than 3600ms) */
-    --spin-speed: 0.9s; /* visual shiny spin, synced with faster feel */
+    --step-duration:900;      /* ms (fast) */
+    --spin-speed: 0.9s;       /* shiny ring spin */
   }
 
   *{box-sizing:border-box}
@@ -59,6 +59,7 @@
     display:flex;
     gap:12px;
     align-items:flex-start;
+    padding:12px;
   }
   .slide[aria-hidden="false"]{ opacity:1; transform:none; z-index:2; }
 
@@ -79,7 +80,9 @@
   .steps{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
   @media(max-width:540px){ .steps{grid-template-columns:1fr} }
 
-  .step {
+  a.step {
+    text-decoration:none;
+    color:inherit;
     position:relative;
     border-radius:12px;
     padding:14px 14px 14px 12px;
@@ -92,17 +95,15 @@
     transition:transform 180ms ease, box-shadow 180ms ease;
     outline:none;
   }
-  .step:focus{box-shadow:0 8px 30px rgba(11,120,255,0.12);transform:translateY(-3px)}
-  .step:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(9,14,30,0.06)}
-  .step.paused{opacity:0.94;transform:none;box-shadow:none}
+  a.step:focus{box-shadow:0 8px 30px rgba(11,120,255,0.12);transform:translateY(-3px)}
+  a.step:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(9,14,30,0.06)}
+  a.step.paused{opacity:0.94;transform:none;box-shadow:none}
 
   .step .content{flex:1}
   .step .title{font-weight:800;margin:0;color:#0b1330}
   .step .sub{margin:6px 0 0;color:var(--muted);font-size:0.92rem}
 
-  /* circle wrapper contains both shiny spinning ring (::before) and SVG progress */
   .circle-wrap { width:62px; height:62px; flex:0 0 62px; position:relative; display:grid;place-items:center }
-  /* shiny spinning glowing ring via conic-gradient in ::before */
   .circle-wrap::before{
     content:"";
     position:absolute;
@@ -117,22 +118,19 @@
   }
   @keyframes spinShine{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
 
-  /* SVG as progress ring - sits above shiny ring */
   .circle-wrap svg { width:62px;height:62px; position:relative; z-index:1; transform:rotate(-90deg); }
   .circle-bg { stroke: #eef5ff; stroke-width:6; fill:none; }
   .progress { stroke: var(--mitec-mid); stroke-width:6; fill:none; stroke-linecap:round; stroke-dasharray: 314; stroke-dashoffset: 314; transition: stroke-dashoffset var(--step-duration) linear; }
 
   .cnum{position:absolute;font-weight:900;color:var(--mitec-mid);font-size:0.95rem;z-index:2;pointer-events:none}
 
-  /* paused look */
-  .step.paused .circle-wrap::before{animation-play-state:paused; filter: drop-shadow(0 4px 10px rgba(11,120,255,0.04));}
-  .step.paused .progress{transition:none}
+  a.step.paused .circle-wrap::before{animation-play-state:paused; filter: drop-shadow(0 4px 10px rgba(11,120,255,0.04));}
+  a.step.paused .progress{transition:none}
 
-  /* nth-child sequence delay for a subtle wave of shiny ring (visual, not progress) */
-  .step:nth-child(1) .circle-wrap::before{animation-delay:0s}
-  .step:nth-child(2) .circle-wrap::before{animation-delay:0.12s}
-  .step:nth-child(3) .circle-wrap::before{animation-delay:0.24s}
-  .step:nth-child(4) .circle-wrap::before{animation-delay:0.36s}
+  a.step:nth-child(1) .circle-wrap::before{animation-delay:0s}
+  a.step:nth-child(2) .circle-wrap::before{animation-delay:0.12s}
+  a.step:nth-child(3) .circle-wrap::before{animation-delay:0.24s}
+  a.step:nth-child(4) .circle-wrap::before{animation-delay:0.36s}
 
   @media (prefers-reduced-motion: reduce){
     .slide{transition:none}
@@ -141,6 +139,8 @@
     .progress{transition:none; stroke-dashoffset:0}
   }
 
+  /* small footer */
+  footer{grid-column:1/-1;text-align:center;color:var(--muted);margin-top:8px;font-size:0.9rem}
 </style>
 </head>
 <body>
@@ -171,12 +171,12 @@
     </div>
   </div>
 
-  <!-- QUICK START with shiny circling border sequence -->
+  <!-- QUICK START with shiny circling border sequence (links restored) -->
   <div class="card quick-start" aria-labelledby="qs">
     <div class="title"><i class="fa-solid fa-flag" style="color:var(--mitec-gold)"></i> Get Your Payment — 4 quick steps</div>
 
     <div class="steps" id="steps">
-      <div class="step" tabindex="0" data-step="0" aria-label="Step 1 - Register">
+      <a class="step" href="https://www.casualmitec.online/first-time-application" target="_self" rel="noopener" data-step="0" aria-label="Step 1 - Register">
         <div class="circle-wrap">
           <svg viewBox="0 0 100 100" aria-hidden="true">
             <circle class="circle-bg" cx="50" cy="50" r="49"></circle>
@@ -188,9 +188,9 @@
           <div class="title">Register</div>
           <div class="sub">Submit your bank details</div>
         </div>
-      </div>
+      </a>
 
-      <div class="step" tabindex="0" data-step="1" aria-label="Step 2 - Sign In/Out">
+      <a class="step" href="https://www.casualmitec.online/sign-in-sign-out" target="_self" rel="noopener" data-step="1" aria-label="Step 2 - Sign In/Out">
         <div class="circle-wrap">
           <svg viewBox="0 0 100 100" aria-hidden="true">
             <circle class="circle-bg" cx="50" cy="50" r="49"></circle>
@@ -202,9 +202,9 @@
           <div class="title">Sign In / Out</div>
           <div class="sub">Clock in and out for every shift</div>
         </div>
-      </div>
+      </a>
 
-      <div class="step" tabindex="0" data-step="2" aria-label="Step 3 - Submit Voucher">
+      <a class="step" href="https://eus-cdn.sway.static.microsoft/s/RZPlGrjCXdD5QeF2/images/NCPljCf2-Hl4r0?quality=479&allowAnimation=true&embeddedHost=true&filterEffectsFormula=Grayscale=0,Contrast=1.15" target="_blank" rel="noopener" data-step="2" aria-label="Step 3 - Submit Voucher">
         <div class="circle-wrap">
           <svg viewBox="0 0 100 100" aria-hidden="true">
             <circle class="circle-bg" cx="50" cy="50" r="49"></circle>
@@ -216,9 +216,9 @@
           <div class="title">Submit Voucher</div>
           <div class="sub">Hand voucher to guard for payment</div>
         </div>
-      </div>
+      </a>
 
-      <div class="step" tabindex="0" data-step="3" aria-label="Step 4 - Check Record">
+      <a class="step" href="https://www.casualmitec.online/my-record" target="_self" rel="noopener" data-step="3" aria-label="Step 4 - Check Record">
         <div class="circle-wrap">
           <svg viewBox="0 0 100 100" aria-hidden="true">
             <circle class="circle-bg" cx="50" cy="50" r="49"></circle>
@@ -230,10 +230,15 @@
           <div class="title">Check Record</div>
           <div class="sub">Verify clocking & payments</div>
         </div>
-      </div>
+      </a>
     </div>
 
+    <div style="margin-top:14px;color:var(--muted);font-size:0.92rem">
+      Tip: keep your bank details current — payments follow the registered account.
+    </div>
   </div>
+
+  <footer>© Malaysia International Trade & Exhibition Centre — CasualMITEC</footer>
 </div>
 
 <script>
@@ -376,8 +381,7 @@
    =========================================== */
 (function(){
   const stepsContainer = document.getElementById('steps');
-  const steps = Array.from(stepsContainer.querySelectorAll('.step'));
-  // duration in ms read from CSS var
+  const steps = Array.from(stepsContainer.querySelectorAll('a.step'));
   const duration = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--step-duration')) || 900;
   let current = 0;
   let running = true;
@@ -415,7 +419,6 @@
     if(!s) return;
     const prog = s.querySelector('.progress');
     s.classList.add('active');
-    // trigger reflow then start
     requestAnimationFrame(()=> {
       prog.classList.add('running');
       prog.style.strokeDashoffset = 0;
@@ -431,14 +434,12 @@
     initProgress();
     animateStep(0);
   } else {
-    // reduced motion: show full rings complete
     steps.forEach(s=>{
       const prog = s.querySelector('.progress');
       if(prog) prog.style.strokeDashoffset = 0;
     });
   }
 
-  // Pause/resume handlers: freeze computed dashoffset
   function pauseSequence(){
     if(prefersReduced) return;
     running = false;
@@ -448,11 +449,8 @@
       const prog = s.querySelector('.progress');
       if(prog){
         const cs = getComputedStyle(prog);
-        // computed dashoffset may be like "123px" or "123"
         const dash = cs.strokeDashoffset || cs.getPropertyValue('stroke-dashoffset');
-        // remove transition and set to computed value to freeze
         prog.style.transition = 'none';
-        // Try to parse numeric; fallback to current set value
         const numeric = parseFloat(dash);
         if(!isNaN(numeric)) prog.style.strokeDashoffset = numeric;
       }
@@ -462,7 +460,6 @@
     if(prefersReduced) return;
     if(running) return;
     running = true;
-    // For simplicity, restart sequence from current index
     steps.forEach(s => {
       const prog = s.querySelector('.progress');
       if(prog){
@@ -478,11 +475,8 @@
     s.addEventListener('mouseleave', resumeSequence);
     s.addEventListener('focusin', pauseSequence);
     s.addEventListener('focusout', resumeSequence);
-    s.addEventListener('click', () => {
-      clearTimeout(timeoutId);
-      current = idx;
-      animateStep(idx);
-    });
+    // NOTE: no click handler here — anchors navigate immediately by browser default
+    // however, ensure ctrl/meta openness still works (browser handles it)
   });
 
 })();
