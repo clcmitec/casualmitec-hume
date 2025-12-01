@@ -16,9 +16,9 @@
     --muted:#55606a;
     --radius:12px;
     --accent:#0b78ff;
-    --carousel-interval:6000; /* ms */
-    --step-duration:900;      /* ms (fast) */
-    --spin-speed: 0.9s;       /* shiny ring spin */
+    --carousel-interval:6000;
+    --step-duration:900;
+    --spin-speed: 0.9s;
   }
 
   *{box-sizing:border-box}
@@ -35,36 +35,18 @@
 
   .card{background:var(--card);border-radius:var(--radius);padding:18px;box-shadow:0 10px 30px rgba(12,18,30,0.06)}
 
-  /* ---------- ANNOUNCEMENTS CAROUSEL ---------- */
   .ann-outer{position:relative}
   .ann-title{display:flex;align-items:center;gap:10px;color:var(--mitec-mid);font-weight:700;margin-bottom:12px;font-size:1.05rem}
   .ann-title i{transform-origin:center; animation:icon-bob 4s ease-in-out infinite}
   @keyframes icon-bob{0%{transform:translateY(0)}50%{transform:translateY(-4px)}100%{transform:translateY(0)}}
 
-  .carousel {
-    position:relative;
-    overflow:hidden;
-    border-radius:10px;
-    background:linear-gradient(180deg,#fbfbfe,#fcfdff);
-    padding:12px;
-  }
-
-  .slides{position:relative;height:140px;}
-  .slide{
-    position:absolute;
-    inset:0;
-    opacity:0;
-    transform:translateY(6px);
-    transition:opacity 420ms ease, transform 420ms cubic-bezier(.2,.9,.2,1);
-    display:flex;
-    gap:12px;
-    align-items:flex-start;
-    padding:12px;
-  }
+  .carousel {position:relative;overflow:hidden;border-radius:10px;background:linear-gradient(180deg,#fbfbfe,#fcfdff);padding:12px;}
+  .slides{position:relative;min-height:140px;}
+  .slide{position:absolute;inset:0;opacity:0;transform:translateY(6px);transition:opacity 420ms ease, transform 420ms cubic-bezier(.2,.9,.2,1);display:flex;gap:12px;align-items:flex-start;padding:12px;flex-direction:column;}
   .slide[aria-hidden="false"]{ opacity:1; transform:none; z-index:2; }
 
-  .slide h3{margin:0;font-size:1rem;color:#0f172a}
-  .slide p{margin:8px 0 0;color:var(--muted);line-height:1.45;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+  .slide h4{margin:0;font-size:1rem;color:#0f172a}
+  .slide pre{margin:6px 0 0;color:var(--muted);line-height:1.5;white-space:pre-wrap;font-family:inherit;}
 
   .controls{display:flex;gap:8px;align-items:center;margin-top:12px;justify-content:space-between}
   .dots{display:flex;gap:8px;align-items:center}
@@ -72,10 +54,7 @@
   .dot[aria-current="true"]{background:var(--mitec-mid);box-shadow:0 6px 16px rgba(34,66,137,0.12)}
   .nav-btn{background:transparent;border:1px solid #e6eefb;padding:8px;border-radius:8px;cursor:pointer}
 
-  .skeleton{height:96px;border-radius:10px;background:linear-gradient(90deg,#f0f3f8 0%, #e8edf6 50%, #f0f3f8 100%);background-size:200% 100%;animation:shimmer 1.1s linear infinite}
-  @keyframes shimmer{from{background-position:200% 0}to{background-position:-200% 0}}
-
-  /* ---------- QUICK-STEP with shiny circling borders ---------- */
+  /* ---------- QUICK-STEP ---------- */
   .quick-start .title{font-size:1.15rem;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:8px;color:var(--mitec-mid)}
   .steps{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
   @media(max-width:540px){ .steps{grid-template-columns:1fr} }
@@ -124,22 +103,6 @@
 
   .cnum{position:absolute;font-weight:900;color:var(--mitec-mid);font-size:0.95rem;z-index:2;pointer-events:none}
 
-  a.step.paused .circle-wrap::before{animation-play-state:paused; filter: drop-shadow(0 4px 10px rgba(11,120,255,0.04));}
-  a.step.paused .progress{transition:none}
-
-  a.step:nth-child(1) .circle-wrap::before{animation-delay:0s}
-  a.step:nth-child(2) .circle-wrap::before{animation-delay:0.12s}
-  a.step:nth-child(3) .circle-wrap::before{animation-delay:0.24s}
-  a.step:nth-child(4) .circle-wrap::before{animation-delay:0.36s}
-
-  @media (prefers-reduced-motion: reduce){
-    .slide{transition:none}
-    .ann-title i{animation:none}
-    .circle-wrap::before{animation:none}
-    .progress{transition:none; stroke-dashoffset:0}
-  }
-
-  /* small footer */
   footer{grid-column:1/-1;text-align:center;color:var(--muted);margin-top:8px;font-size:0.9rem}
 </style>
 </head>
@@ -155,7 +118,6 @@
 
     <div class="carousel" id="carousel" aria-roledescription="carousel">
       <div class="slides" id="slides">
-        <!-- skeleton slides while loading -->
         <div class="slide skeleton" role="group" aria-hidden="true"></div>
         <div class="slide skeleton" role="group" aria-hidden="true"></div>
         <div class="slide skeleton" role="group" aria-hidden="true"></div>
@@ -171,15 +133,12 @@
     </div>
   </div>
 
-  <!-- QUICK START with shiny circling border sequence (links restored) -->
+  <!-- QUICK START -->
   <div class="card quick-start" aria-labelledby="qs">
     <div class="title"><i class="fa-solid fa-flag" style="color:var(--mitec-gold)"></i> Get Your Payment — 4 quick steps</div>
 
     <div class="steps" id="steps">
-     
-     
-      
- <a class="step" href="http://www.casualmitec.online/first-time-application" target="_blank" rel="noopener" data-step="0" aria-label="Step 1 - Register">
+      <a class="step" href="http://www.casualmitec.online/first-time-application" target="_blank" rel="noopener" data-step="0" aria-label="Step 1 - Register">
         <div class="circle-wrap">
           <svg viewBox="0 0 100 100" aria-hidden="true">
             <circle class="circle-bg" cx="50" cy="50" r="49"></circle>
@@ -192,7 +151,7 @@
           <div class="sub">Submit your bank details</div>
         </div>
       </a>
- <a class="step" href="http://www.casualmitec.online/sign-in-sign-out" target="_blank" rel="noopener" data-step="1" aria-label="Step 2 - Sign In/Out">
+      <a class="step" href="http://www.casualmitec.online/sign-in-sign-out" target="_blank" rel="noopener" data-step="1" aria-label="Step 2 - Sign In/Out">
         <div class="circle-wrap">
           <svg viewBox="0 0 100 100" aria-hidden="true">
             <circle class="circle-bg" cx="50" cy="50" r="49"></circle>
@@ -218,7 +177,6 @@
           <div class="sub">Hand voucher to guard for payment</div>
         </div>
       </a>
-
       <a class="step" href="http://www.casualmitec.online/my-record" target="_blank" rel="noopener" data-step="3" aria-label="Step 4 - Check Record">
         <div class="circle-wrap">
           <svg viewBox="0 0 100 100" aria-hidden="true">
@@ -243,9 +201,6 @@
 </div>
 
 <script>
-/* ===============================
-   ANNOUNCEMENTS CAROUSEL LOGIC
-   =============================== */
 (async function(){
   const sheetId = "1Gks45PK53pcPJXePjYlRLpAhAmGPMPB3X0ec5XaLgRI";
   const slidesEl = document.getElementById('slides');
@@ -253,235 +208,54 @@
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
   const carouselInterval = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--carousel-interval')) || 6000;
-  let items = [];
-  let current = 0;
-  let timer = null;
-  let isPaused = false;
+  let items = [], current = 0, timer = null, isPaused = false;
 
   function escapeHtml(str=''){ return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
 
   async function fetchSheetRows(){
     const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent('Sheet1')}`;
-    try{
-      const res = await fetch(url);
-      const txt = await res.text();
-      const json = JSON.parse(txt.substr(47).slice(0,-2));
-      return json.table.rows || [];
-    }catch(e){
-      console.error('sheet fetch err',e);
-      return [];
-    }
+    try{ const res = await fetch(url); const txt = await res.text(); const json = JSON.parse(txt.substr(47).slice(0,-2)); return json.table.rows || []; }
+    catch(e){ console.error('sheet fetch err',e); return []; }
   }
 
   function buildSlides(rows){
-    items = rows.map(r => {
-      const text = r.c && r.c[0] ? String(r.c[0].v) : '';
-      const date = r.c && r.c[1] ? String(r.c[1].v) : '';
-      return { text, date };
-    });
-
-    slidesEl.innerHTML = '';
-    dotsEl.innerHTML = '';
-
-    if(!items.length){
-      slidesEl.innerHTML = '<div class="slide"><div style="padding:18px;color:var(--muted)">No announcements.</div></div>';
-      return;
-    }
-
-    items.forEach((it, idx) => {
-      const s = document.createElement('div');
-      s.className = 'slide';
-      s.setAttribute('role','group');
-      s.setAttribute('aria-hidden','true');
-      s.id = 'slide-' + idx;
-      s.innerHTML = `
-        <div style="flex:1">
-          <h3>${escapeHtml(it.text.split('\\n')[0] || it.text)}</h3>
-          <p>${escapeHtml(it.text.length>300 ? it.text.slice(0,300)+'…': it.text)}</p>
-        </div>
-      `;
+    items = rows.map(r=>({text:r.c && r.c[0]?String(r.c[0].v).replace(/\\n/g,'\n'):'', date:r.c && r.c[1]?String(r.c[1].v):''}));
+    slidesEl.innerHTML=''; dotsEl.innerHTML='';
+    if(!items.length){ slidesEl.innerHTML='<div class="slide"><div style="padding:18px;color:var(--muted)">No announcements.</div></div>'; return; }
+    items.forEach((it,idx)=>{
+      const s=document.createElement('div'); s.className='slide'; s.setAttribute('role','group'); s.setAttribute('aria-hidden','true'); s.id='slide-'+idx;
+      const lines=it.text.split('\n'); const heading=escapeHtml(lines[0]||''); const body=escapeHtml(it.text);
+      s.innerHTML=`<h4>${heading}</h4><pre>${body}</pre>`;
       slidesEl.appendChild(s);
-
-      const dot = document.createElement('button');
-      dot.className = 'dot';
-      dot.type = 'button';
-      dot.setAttribute('aria-label','Go to announcement '+(idx+1));
-      dot.setAttribute('aria-current','false');
-      dot.addEventListener('click', ()=> goTo(idx, true));
+      const dot=document.createElement('button'); dot.className='dot'; dot.type='button'; dot.setAttribute('aria-label','Go to announcement '+(idx+1)); dot.setAttribute('aria-current','false'); dot.addEventListener('click',()=>goTo(idx,true));
       dotsEl.appendChild(dot);
     });
   }
 
-  function setActive(index){
-    const slideEls = slidesEl.querySelectorAll('.slide');
-    const dotEls = dotsEl.querySelectorAll('.dot');
-    slideEls.forEach((s,i)=>{
-      s.setAttribute('aria-hidden', i===index ? 'false' : 'true');
-    });
-    dotEls.forEach((d,i)=>{
-      d.setAttribute('aria-current', i===index ? 'true' : 'false');
-    });
-    current = index;
+  function setActive(index){ const slideEls=slidesEl.querySelectorAll('.slide'); const dotEls=dotsEl.querySelectorAll('.dot');
+    slideEls.forEach((s,i)=>s.setAttribute('aria-hidden',i===index?'false':'true'));
+    dotEls.forEach((d,i)=>d.setAttribute('aria-current',i===index?'true':'false')); current=index;
   }
 
-  function goTo(index, userTriggered=false){
-    if(!items.length) return;
-    setActive((index+items.length) % items.length);
-    restartTimer();
-    if(userTriggered) pauseAuto();
-  }
-
-  function next(){ goTo((current + 1) % items.length); }
-  function prev(){ goTo((current - 1 + items.length) % items.length); }
-
-  function startTimer(){
-    if(timer) clearInterval(timer);
-    timer = setInterval(()=> { if(!isPaused) next(); }, carouselInterval);
-  }
+  function goTo(index,userTriggered=false){ if(!items.length)return; setActive((index+items.length)%items.length); restartTimer(); if(userTriggered) pauseAuto(); }
+  function next(){ goTo((current+1)%items.length); }
+  function prev(){ goTo((current-1+items.length)%items.length); }
+  function startTimer(){ if(timer) clearInterval(timer); timer=setInterval(()=>{ if(!isPaused) next(); }, carouselInterval);}
   function restartTimer(){ startTimer(); }
+  function pauseAuto(){ isPaused=true; clearInterval(timer); setTimeout(()=>{isPaused=false; startTimer();},8000);}
 
-  function pauseAuto(){
-    isPaused = true;
-    clearInterval(timer);
-    setTimeout(()=>{ isPaused = false; startTimer(); }, 8000);
-  }
+  const carouselEl=document.getElementById('carousel');
+  carouselEl.addEventListener('mouseenter',()=>{isPaused=true;});
+  carouselEl.addEventListener('mouseleave',()=>{isPaused=false;});
+  carouselEl.addEventListener('focusin',()=>{isPaused=true;});
+  carouselEl.addEventListener('focusout',()=>{isPaused=false;});
+  prevBtn.addEventListener('click',()=>{prev(); pauseAuto();});
+  nextBtn.addEventListener('click',()=>{next(); pauseAuto();});
 
-  const carouselEl = document.getElementById('carousel');
-  carouselEl.addEventListener('mouseenter', () => { isPaused = true; });
-  carouselEl.addEventListener('mouseleave', () => { isPaused = false; });
-  carouselEl.addEventListener('focusin', () => { isPaused = true; });
-  carouselEl.addEventListener('focusout', () => { isPaused = false; });
+  (function addSwipe(){ let x0=null; carouselEl.addEventListener('touchstart',e=>{ x0=e.changedTouches[0].clientX; }); carouselEl.addEventListener('touchend',e=>{ if(!x0)return; const dx=e.changedTouches[0].clientX-x0; if(Math.abs(dx)>40){ dx>0?prev():next(); pauseAuto();} x0=null; }); })();
 
-  prevBtn.addEventListener('click', ()=>{ prev(); pauseAuto(); });
-  nextBtn.addEventListener('click', ()=>{ next(); pauseAuto(); });
-
-  (function addSwipe(){
-    let x0 = null;
-    carouselEl.addEventListener('touchstart', e => { x0 = e.changedTouches[0].clientX; });
-    carouselEl.addEventListener('touchend', e => {
-      if(!x0) return;
-      const dx = e.changedTouches[0].clientX - x0;
-      if(Math.abs(dx) > 40){
-        if(dx > 0) prev(); else next();
-        pauseAuto();
-      }
-      x0 = null;
-    });
-  })();
-
-  // init
-  const rows = await fetchSheetRows();
-  buildSlides(rows);
-  if(items.length) setActive(0);
-  startTimer();
-
-})();
-
-/* ===========================================
-   STEP SEQUENCE: shiny circling border (fast)
-   =========================================== */
-(function(){
-  const stepsContainer = document.getElementById('steps');
-  const steps = Array.from(stepsContainer.querySelectorAll('a.step'));
-  const duration = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--step-duration')) || 900;
-  let current = 0;
-  let running = true;
-  let timeoutId = null;
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const PROGRESS_CIRC = 314; // approx circumference for r=50
-
-  function initProgress(){
-    steps.forEach(s=>{
-      const prog = s.querySelector('.progress');
-      if(prog){
-        prog.style.strokeDasharray = PROGRESS_CIRC;
-        prog.style.strokeDashoffset = PROGRESS_CIRC;
-        prog.style.transition = `stroke-dashoffset ${duration}ms linear`;
-      }
-    });
-  }
-
-  function resetAll(){
-    steps.forEach(s => {
-      s.classList.remove('active','paused');
-      const prog = s.querySelector('.progress');
-      if(prog){
-        prog.classList.remove('running');
-        prog.style.transition = `stroke-dashoffset ${duration}ms linear`;
-        prog.style.strokeDashoffset = PROGRESS_CIRC;
-      }
-    });
-  }
-
-  function animateStep(idx){
-    if(prefersReduced) return;
-    resetAll();
-    const s = steps[idx];
-    if(!s) return;
-    const prog = s.querySelector('.progress');
-    s.classList.add('active');
-    requestAnimationFrame(()=> {
-      prog.classList.add('running');
-      prog.style.strokeDashoffset = 0;
-    });
-
-    timeoutId = setTimeout(()=> {
-      current = (idx + 1) % steps.length;
-      animateStep(current);
-    }, duration + 60); // small gap
-  }
-
-  if(!prefersReduced){
-    initProgress();
-    animateStep(0);
-  } else {
-    steps.forEach(s=>{
-      const prog = s.querySelector('.progress');
-      if(prog) prog.style.strokeDashoffset = 0;
-    });
-  }
-
-  function pauseSequence(){
-    if(prefersReduced) return;
-    running = false;
-    clearTimeout(timeoutId);
-    steps.forEach(s=>{
-      s.classList.add('paused');
-      const prog = s.querySelector('.progress');
-      if(prog){
-        const cs = getComputedStyle(prog);
-        const dash = cs.strokeDashoffset || cs.getPropertyValue('stroke-dashoffset');
-        prog.style.transition = 'none';
-        const numeric = parseFloat(dash);
-        if(!isNaN(numeric)) prog.style.strokeDashoffset = numeric;
-      }
-    });
-  }
-  function resumeSequence(){
-    if(prefersReduced) return;
-    if(running) return;
-    running = true;
-    steps.forEach(s => {
-      const prog = s.querySelector('.progress');
-      if(prog){
-        prog.style.transition = `stroke-dashoffset ${duration}ms linear`;
-        prog.style.strokeDashoffset = PROGRESS_CIRC;
-      }
-    });
-    animateStep(current);
-  }
-
-  steps.forEach((s, idx)=>{
-    s.addEventListener('mouseenter', pauseSequence);
-    s.addEventListener('mouseleave', resumeSequence);
-    s.addEventListener('focusin', pauseSequence);
-    s.addEventListener('focusout', resumeSequence);
-    // NOTE: no click handler here — anchors navigate immediately by browser default
-    // however, ensure ctrl/meta openness still works (browser handles it)
-  });
-
+  const rows=await fetchSheetRows(); buildSlides(rows); if(items.length)setActive(0); startTimer();
 })();
 </script>
-
 </body>
 </html>
