@@ -16,9 +16,9 @@
     --muted:#55606a;
     --radius:12px;
     --accent:#0b78ff;
-    --carousel-interval:6000;
-    --step-duration:900;
-    --spin-speed: 0.9s;
+    --carousel-interval:6000; /* ms */
+    --step-duration:900;      /* ms (fast) */
+    --spin-speed: 0.9s;       /* shiny ring spin */
   }
 
   *{box-sizing:border-box}
@@ -35,18 +35,38 @@
 
   .card{background:var(--card);border-radius:var(--radius);padding:18px;box-shadow:0 10px 30px rgba(12,18,30,0.06)}
 
+  /* ---------- ANNOUNCEMENTS CAROUSEL ---------- */
   .ann-outer{position:relative}
   .ann-title{display:flex;align-items:center;gap:10px;color:var(--mitec-mid);font-weight:700;margin-bottom:12px;font-size:1.05rem}
   .ann-title i{transform-origin:center; animation:icon-bob 4s ease-in-out infinite}
   @keyframes icon-bob{0%{transform:translateY(0)}50%{transform:translateY(-4px)}100%{transform:translateY(0)}}
 
-  .carousel {position:relative;overflow:hidden;border-radius:10px;background:linear-gradient(180deg,#fbfbfe,#fcfdff);padding:12px;}
-  .slides{position:relative;min-height:140px;}
-  .slide{position:absolute;inset:0;opacity:0;transform:translateY(6px);transition:opacity 420ms ease, transform 420ms cubic-bezier(.2,.9,.2,1);display:flex;gap:12px;align-items:flex-start;padding:12px;flex-direction:column;}
-  .slide[aria-hidden="false"]{ opacity:1; transform:none; z-index:2; }
+  .carousel {
+    position:relative;
+    overflow:hidden;
+    border-radius:10px;
+    background:linear-gradient(180deg,#fbfbfe,#fcfdff);
+    padding:12px;
+  }
 
-  .slide h4{margin:0;font-size:1rem;color:#0f172a}
-  .slide pre{margin:6px 0 0;color:var(--muted);line-height:1.5;white-space:pre-wrap;font-family:inherit;}
+  .slides{position:relative;}
+  .slide{
+    display:none;
+    gap:12px;
+    align-items:flex-start;
+    padding:12px;
+  }
+  .slide.active{ display:flex; }
+
+  .slide pre {
+    margin: 0;
+    white-space: pre-wrap; 
+    word-wrap: break-word;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+    font-size: 0.95rem;
+    color: #0f172a;
+    line-height: 1.4;
+  }
 
   .controls{display:flex;gap:8px;align-items:center;margin-top:12px;justify-content:space-between}
   .dots{display:flex;gap:8px;align-items:center}
@@ -54,7 +74,7 @@
   .dot[aria-current="true"]{background:var(--mitec-mid);box-shadow:0 6px 16px rgba(34,66,137,0.12)}
   .nav-btn{background:transparent;border:1px solid #e6eefb;padding:8px;border-radius:8px;cursor:pointer}
 
-  /* ---------- QUICK-STEP ---------- */
+  /* ---------- QUICK-STEP with shiny circling borders ---------- */
   .quick-start .title{font-size:1.15rem;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:8px;color:var(--mitec-mid)}
   .steps{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
   @media(max-width:540px){ .steps{grid-template-columns:1fr} }
@@ -103,6 +123,16 @@
 
   .cnum{position:absolute;font-weight:900;color:var(--mitec-mid);font-size:0.95rem;z-index:2;pointer-events:none}
 
+  a.step.paused .circle-wrap::before{animation-play-state:paused; filter: drop-shadow(0 4px 10px rgba(11,120,255,0.04));}
+  a.step.paused .progress{transition:none}
+
+  @media (prefers-reduced-motion: reduce){
+    .slide{transition:none}
+    .ann-title i{animation:none}
+    .circle-wrap::before{animation:none}
+    .progress{transition:none; stroke-dashoffset:0}
+  }
+
   footer{grid-column:1/-1;text-align:center;color:var(--muted);margin-top:8px;font-size:0.9rem}
 </style>
 </head>
@@ -118,12 +148,13 @@
 
     <div class="carousel" id="carousel" aria-roledescription="carousel">
       <div class="slides" id="slides">
-        <div class="slide skeleton" role="group" aria-hidden="true"></div>
-        <div class="slide skeleton" role="group" aria-hidden="true"></div>
-        <div class="slide skeleton" role="group" aria-hidden="true"></div>
+        <!-- skeleton slides while loading -->
+        <div class="slide skeleton" role="group"></div>
+        <div class="slide skeleton" role="group"></div>
+        <div class="slide skeleton" role="group"></div>
       </div>
 
-      <div class="controls" style="margin-top:12px">
+      <div class="controls">
         <div>
           <button class="nav-btn" id="prevBtn" aria-label="Previous announcement"><i class="fa-solid fa-chevron-left"></i></button>
           <button class="nav-btn" id="nextBtn" aria-label="Next announcement"><i class="fa-solid fa-chevron-right"></i></button>
@@ -133,12 +164,12 @@
     </div>
   </div>
 
-  <!-- QUICK START -->
+  <!-- QUICK START with shiny circling border sequence -->
   <div class="card quick-start" aria-labelledby="qs">
     <div class="title"><i class="fa-solid fa-flag" style="color:var(--mitec-gold)"></i> Get Your Payment — 4 quick steps</div>
 
     <div class="steps" id="steps">
-      <a class="step" href="http://www.casualmitec.online/first-time-application" target="_blank" rel="noopener" data-step="0" aria-label="Step 1 - Register">
+      <a class="step" href="http://www.casualmitec.online/first-time-application" target="_blank" rel="noopener">
         <div class="circle-wrap">
           <svg viewBox="0 0 100 100" aria-hidden="true">
             <circle class="circle-bg" cx="50" cy="50" r="49"></circle>
@@ -151,7 +182,7 @@
           <div class="sub">Submit your bank details</div>
         </div>
       </a>
-      <a class="step" href="http://www.casualmitec.online/sign-in-sign-out" target="_blank" rel="noopener" data-step="1" aria-label="Step 2 - Sign In/Out">
+      <a class="step" href="http://www.casualmitec.online/sign-in-sign-out" target="_blank" rel="noopener">
         <div class="circle-wrap">
           <svg viewBox="0 0 100 100" aria-hidden="true">
             <circle class="circle-bg" cx="50" cy="50" r="49"></circle>
@@ -164,7 +195,7 @@
           <div class="sub">Clock in and out for every shift</div>
         </div>
       </a>
-      <a class="step" href="http://eus-cdn.sway.static.microsoft/s/RZPlGrjCXdD5QeF2/images/NCPljCf2-Hl4r0?quality=479&allowAnimation=true&embeddedHost=true&filterEffectsFormula=Grayscale=0,Contrast=1.15" target="_blank" rel="noopener" data-step="2" aria-label="Step 3 - Submit Voucher">
+      <a class="step" href="http://eus-cdn.sway.static.microsoft/s/RZPlGrjCXdD5QeF2/images/NCPljCf2-Hl4r0" target="_blank" rel="noopener">
         <div class="circle-wrap">
           <svg viewBox="0 0 100 100" aria-hidden="true">
             <circle class="circle-bg" cx="50" cy="50" r="49"></circle>
@@ -177,7 +208,7 @@
           <div class="sub">Hand voucher to guard for payment</div>
         </div>
       </a>
-      <a class="step" href="http://www.casualmitec.online/my-record" target="_blank" rel="noopener" data-step="3" aria-label="Step 4 - Check Record">
+      <a class="step" href="http://www.casualmitec.online/my-record" target="_blank" rel="noopener">
         <div class="circle-wrap">
           <svg viewBox="0 0 100 100" aria-hidden="true">
             <circle class="circle-bg" cx="50" cy="50" r="49"></circle>
@@ -208,54 +239,79 @@
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
   const carouselInterval = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--carousel-interval')) || 6000;
-  let items = [], current = 0, timer = null, isPaused = false;
+  let items = [], current = 0, timer = null;
 
   function escapeHtml(str=''){ return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
 
   async function fetchSheetRows(){
     const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent('Sheet1')}`;
-    try{ const res = await fetch(url); const txt = await res.text(); const json = JSON.parse(txt.substr(47).slice(0,-2)); return json.table.rows || []; }
-    catch(e){ console.error('sheet fetch err',e); return []; }
+    try{
+      const res = await fetch(url);
+      const txt = await res.text();
+      const json = JSON.parse(txt.substr(47).slice(0,-2));
+      return json.table.rows || [];
+    }catch(e){console.error('sheet fetch err',e); return [];}
   }
 
   function buildSlides(rows){
-    items = rows.map(r=>({text:r.c && r.c[0]?String(r.c[0].v).replace(/\\n/g,'\n'):'', date:r.c && r.c[1]?String(r.c[1].v):''}));
-    slidesEl.innerHTML=''; dotsEl.innerHTML='';
-    if(!items.length){ slidesEl.innerHTML='<div class="slide"><div style="padding:18px;color:var(--muted)">No announcements.</div></div>'; return; }
-    items.forEach((it,idx)=>{
-      const s=document.createElement('div'); s.className='slide'; s.setAttribute('role','group'); s.setAttribute('aria-hidden','true'); s.id='slide-'+idx;
-      const lines=it.text.split('\n'); const heading=escapeHtml(lines[0]||''); const body=escapeHtml(it.text);
-      s.innerHTML=`<h4>${heading}</h4><pre>${body}</pre>`;
+    items = rows.map(r => {
+      const text = r.c && r.c[0] ? String(r.c[0].v) : '';
+      return { text };
+    });
+
+    slidesEl.innerHTML = '';
+    dotsEl.innerHTML = '';
+
+    if(!items.length){
+      slidesEl.innerHTML = '<div class="slide active"><div style="padding:18px;color:var(--muted)">No announcements.</div></div>';
+      return;
+    }
+
+    items.forEach((it, idx) => {
+      const s = document.createElement('div');
+      s.className = 'slide';
+      if(idx===0) s.classList.add('active');
+      s.innerHTML = `<pre>${escapeHtml(it.text)}</pre>`;
       slidesEl.appendChild(s);
-      const dot=document.createElement('button'); dot.className='dot'; dot.type='button'; dot.setAttribute('aria-label','Go to announcement '+(idx+1)); dot.setAttribute('aria-current','false'); dot.addEventListener('click',()=>goTo(idx,true));
+
+      const dot = document.createElement('button');
+      dot.className = 'dot';
+      dot.type = 'button';
+      dot.setAttribute('aria-label','Go to announcement '+(idx+1));
+      dot.setAttribute('aria-current', idx===0?'true':'false');
+      dot.addEventListener('click', ()=> goTo(idx));
       dotsEl.appendChild(dot);
     });
   }
 
-  function setActive(index){ const slideEls=slidesEl.querySelectorAll('.slide'); const dotEls=dotsEl.querySelectorAll('.dot');
-    slideEls.forEach((s,i)=>s.setAttribute('aria-hidden',i===index?'false':'true'));
-    dotEls.forEach((d,i)=>d.setAttribute('aria-current',i===index?'true':'false')); current=index;
+  function setActive(index){
+    const slideEls = slidesEl.querySelectorAll('.slide');
+    const dotEls = dotsEl.querySelectorAll('.dot');
+    slideEls.forEach((s,i)=> s.classList.toggle('active', i===index));
+    dotEls.forEach((d,i)=> d.setAttribute('aria-current', i===index?'true':'false'));
+    current = index;
   }
 
-  function goTo(index,userTriggered=false){ if(!items.length)return; setActive((index+items.length)%items.length); restartTimer(); if(userTriggered) pauseAuto(); }
-  function next(){ goTo((current+1)%items.length); }
-  function prev(){ goTo((current-1+items.length)%items.length); }
-  function startTimer(){ if(timer) clearInterval(timer); timer=setInterval(()=>{ if(!isPaused) next(); }, carouselInterval);}
-  function restartTimer(){ startTimer(); }
-  function pauseAuto(){ isPaused=true; clearInterval(timer); setTimeout(()=>{isPaused=false; startTimer();},8000);}
+  function goTo(index){
+    setActive((index+items.length)%items.length);
+    restartTimer();
+  }
 
-  const carouselEl=document.getElementById('carousel');
-  carouselEl.addEventListener('mouseenter',()=>{isPaused=true;});
-  carouselEl.addEventListener('mouseleave',()=>{isPaused=false;});
-  carouselEl.addEventListener('focusin',()=>{isPaused=true;});
-  carouselEl.addEventListener('focusout',()=>{isPaused=false;});
-  prevBtn.addEventListener('click',()=>{prev(); pauseAuto();});
-  nextBtn.addEventListener('click',()=>{next(); pauseAuto();});
+  function next(){ goTo(current+1); }
+  function prev(){ goTo(current-1); }
 
-  (function addSwipe(){ let x0=null; carouselEl.addEventListener('touchstart',e=>{ x0=e.changedTouches[0].clientX; }); carouselEl.addEventListener('touchend',e=>{ if(!x0)return; const dx=e.changedTouches[0].clientX-x0; if(Math.abs(dx)>40){ dx>0?prev():next(); pauseAuto();} x0=null; }); })();
+  function startTimer(){ timer = setInterval(next, carouselInterval); }
+  function restartTimer(){ clearInterval(timer); startTimer(); }
 
-  const rows=await fetchSheetRows(); buildSlides(rows); if(items.length)setActive(0); startTimer();
+  prevBtn.addEventListener('click', prev);
+  nextBtn.addEventListener('click', next);
+
+  const rows = await fetchSheetRows();
+  buildSlides(rows);
+  if(items.length) startTimer();
+
 })();
 </script>
+
 </body>
 </html>
